@@ -4,6 +4,9 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "XBLT",
   description: "XBLT is a tool for building and deploying web applications.",
+  icons: {
+    icon: "/img/logo.png",
+  },
 };
 
 export default function RootLayout({

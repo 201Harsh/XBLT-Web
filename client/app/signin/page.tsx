@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import gsap from "gsap";
 import { useRef } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 const SignInPage = () => {
   const [email, setEmail] = useState("");
@@ -91,13 +92,11 @@ const SignInPage = () => {
 
   return (
     <div className="min-h-screen bg-black relative overflow-hidden">
-      {/* Animated Background Elements */}
       <div
         ref={particlesRef}
         className="absolute inset-0 pointer-events-none"
       ></div>
 
-      {/* Animated Glow Effects */}
       <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-yellow-500/5 rounded-full blur-3xl"></div>
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-yellow-500/5 rounded-full blur-3xl"></div>
 
@@ -106,7 +105,6 @@ const SignInPage = () => {
         className="relative z-10 container mx-auto px-4 py-12"
       >
         <div className="max-w-md mx-auto">
-          {/* Logo and Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -114,20 +112,13 @@ const SignInPage = () => {
             className="text-center mb-12"
           >
             <div className="flex items-center justify-center gap-3 mb-6">
-              <motion.div
-                animate={{
-                  scale: [1, 1.1, 1],
-                  rotate: [0, 5, -5, 0],
-                }}
-                transition={{
-                  duration: 4,
-                  repeat: Infinity,
-                  repeatType: "reverse",
-                }}
-                className="w-12 h-12 rounded-lg bg-linear-to-br from-yellow-500 to-yellow-300 flex items-center justify-center"
-              >
-                <span className="text-2xl font-bold text-black">X</span>
-              </motion.div>
+              <Image
+                src="/img/logo.png"
+                alt="XBLT Logo"
+                width={98}
+                height={98}
+                className="rounded-lg bg-linear-to-br from-black to-gray-950 p-1"
+              />
               <h1
                 ref={titleRef}
                 className="text-5xl font-bold bg-linear-to-r from-yellow-400 via-yellow-300 to-yellow-400 bg-clip-text text-transparent tracking-wider"
@@ -146,7 +137,6 @@ const SignInPage = () => {
             </motion.p>
           </motion.div>
 
-          {/* Sign In Card */}
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -157,7 +147,6 @@ const SignInPage = () => {
               Welcome Back
             </h2>
 
-            {/* Google Sign In */}
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
@@ -170,14 +159,12 @@ const SignInPage = () => {
               <span>Continue with Google</span>
             </motion.button>
 
-            {/* Divider */}
             <div className="flex items-center justify-center mb-6">
               <div className="grow h-px bg-gray-700"></div>
               <span className="mx-4 text-gray-500 text-sm">OR</span>
               <div className="grow h-px bg-gray-700"></div>
             </div>
 
-            {/* Email Form */}
             <form onSubmit={handleEmailSubmit}>
               <div className="mb-6">
                 <label
@@ -246,7 +233,6 @@ const SignInPage = () => {
               </motion.button>
             </form>
 
-            {/* Terms */}
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -270,7 +256,6 @@ const SignInPage = () => {
             </motion.p>
           </motion.div>
 
-          {/* Footer */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
