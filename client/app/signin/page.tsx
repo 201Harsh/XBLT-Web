@@ -6,6 +6,7 @@ import { HiMail } from "react-icons/hi";
 import { motion } from "framer-motion";
 import gsap from "gsap";
 import { useRef } from "react";
+import { useRouter } from "next/navigation";
 
 const SignInPage = () => {
   const [email, setEmail] = useState("");
@@ -13,6 +14,7 @@ const SignInPage = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const particlesRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     if (containerRef.current) {
@@ -81,6 +83,10 @@ const SignInPage = () => {
       // Handle Google sign in logic here
       console.log("Google sign in");
     }, 1500);
+  };
+
+  const redirectTOPolicy = () => {
+    router.push("/policy");
   };
 
   return (
@@ -248,11 +254,17 @@ const SignInPage = () => {
               className="text-gray-500 text-sm text-center mt-8"
             >
               By continuing, you agree to XBLT&apos;s{" "}
-              <button className="text-yellow-400 hover:text-yellow-300 transition-colors">
+              <button
+                onClick={redirectTOPolicy}
+                className="text-yellow-400 hover:text-yellow-300 transition-colors"
+              >
                 Terms of Service
               </button>{" "}
               and{" "}
-              <button className="text-yellow-400 hover:text-yellow-300 transition-colors">
+              <button
+                onClick={redirectTOPolicy}
+                className="text-yellow-400 hover:text-yellow-300 transition-colors"
+              >
                 Privacy Policy
               </button>
             </motion.p>
@@ -272,7 +284,6 @@ const SignInPage = () => {
           </motion.div>
         </div>
       </div>
-
     </div>
   );
 };
