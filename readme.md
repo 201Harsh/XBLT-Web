@@ -1,1 +1,1 @@
-this is a Simple Readme.md File
+Just Dummy Readme.md File we'll Create this full Docs Soon as we are just Building it.
