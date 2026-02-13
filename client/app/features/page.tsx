@@ -5,7 +5,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
-  Zap,
   Terminal,
   Cpu,
   Globe,
@@ -16,12 +15,10 @@ import {
   FileJson,
   Lock,
   ArrowRight,
-  Github,
-  Twitter,
-  Disc,
 } from "lucide-react";
+import Header from "../Components/Header";
+import Footer from "../Components/Footer";
 
-// Register GSAP
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
@@ -31,10 +28,8 @@ const XBLTFeatures = () => {
   const triggerRef = useRef<HTMLDivElement>(null);
   const [activeFeature, setActiveFeature] = useState(0);
 
-  // --- GSAP ANIMATION LOGIC ---
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // 1. Pin the Hologram (Right Side)
       ScrollTrigger.create({
         trigger: triggerRef.current,
         start: "top top",
@@ -43,7 +38,6 @@ const XBLTFeatures = () => {
         scrub: 1,
       });
 
-      // 2. Animate Left Text Blocks
       const steps = gsap.utils.toArray(".feature-step");
       steps.forEach((step: any, index) => {
         gsap.fromTo(
@@ -109,25 +103,7 @@ const XBLTFeatures = () => {
       ref={containerRef}
       className="min-h-screen bg-black text-white font-sans overflow-x-hidden selection:bg-[#E2F609] selection:text-black"
     >
-      {/* --- NAV (Consistent with LP) --- */}
-      <nav className="fixed top-0 w-full z-50 backdrop-blur-md border-b border-white/10 bg-black/80">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-2 group cursor-pointer">
-            <Zap className="w-6 h-6 text-[#E2F609] fill-[#E2F609]" />
-            <span className="font-bold text-xl tracking-tighter">
-              XBLT<span className="text-[#E2F609]">.AI</span>
-            </span>
-          </div>
-          <div className="flex gap-4">
-            <button className="text-sm font-semibold hover:text-[#E2F609] text-gray-400 transition-colors">
-              Back to Home
-            </button>
-            <button className="bg-[#E2F609] text-black px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#c9db08] transition-colors">
-              Get Started
-            </button>
-          </div>
-        </div>
-      </nav>
+      <Header />
 
       <section className="relative h-screen flex flex-col justify-center items-center overflow-hidden border-b border-white/10 bg-black perspective-1000">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-200 h-125 bg-[#E2F609]/10 blur-[120px] rounded-full pointer-events-none mix-blend-screen" />
@@ -141,7 +117,6 @@ const XBLTFeatures = () => {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: "circOut" }}
           >
-            {/* System Badge */}
             <motion.div
               initial={{ y: -20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
@@ -152,10 +127,8 @@ const XBLTFeatures = () => {
               <span className="tracking-widest">SYSTEM ARCHITECTURE V2.0</span>
             </motion.div>
 
-            {/* Main Title */}
             <h1 className="text-5xl md:text-8xl lg:text-9xl font-bold tracking-tighter mb-8 leading-[0.9]">
               BEYOND THE <br />
-              {/* Masked Text Effect */}
               <span className="relative inline-block">
                 <span className="absolute -inset-1 bg-[#E2F609]/20 blur-lg opacity-50 animate-pulse"></span>
                 <span className="relative text-transparent bg-clip-text bg-linear-to-b from-white via-gray-200 to-gray-600 drop-shadow-2xl">
@@ -164,7 +137,6 @@ const XBLTFeatures = () => {
               </span>
             </h1>
 
-            {/* Subtext */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -182,7 +154,6 @@ const XBLTFeatures = () => {
           </motion.div>
         </div>
 
-        {/* 4. HUD STATUS BAR (Bottom) */}
         <div className="absolute bottom-0 w-full border-t border-white/10 bg-black/50 backdrop-blur-sm z-30">
           <div className="max-w-7xl mx-auto px-6 h-12 flex items-center justify-between text-[10px] md:text-xs font-mono text-gray-500 uppercase tracking-widest">
             <div className="flex items-center gap-4">
@@ -200,12 +171,9 @@ const XBLTFeatures = () => {
         </div>
       </section>
 
-      {/* --- THE PINNED SECTION --- */}
       <section ref={triggerRef} className="relative w-full bg-[#050505]">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row">
-          {/* LEFT: SCROLLING TEXT */}
           <div className="md:w-1/2 py-32 px-6 pb-[50vh]">
-            {/* STEP 1: NEURAL */}
             <FeatureStep
               title="1. Neural Scaffold"
               subtitle="AI ARCHITECTURE"
@@ -213,7 +181,6 @@ const XBLTFeatures = () => {
               desc="XBLT doesn't just write code; it plans architecture. The NPU scans your prompt, builds a dependency graph, and pre-allocates file structures."
             />
 
-            {/* STEP 2: FILES */}
             <FeatureStep
               title="2. Direct Injection"
               subtitle="FILE SYSTEM WRITE"
@@ -221,7 +188,6 @@ const XBLTFeatures = () => {
               desc="Bypassing the virtual DOM, XBLT injects code directly into your local storage. Watch package.json update in real-time."
             />
 
-            {/* STEP 3: CODE */}
             <FeatureStep
               title="3. The Live Matrix"
               subtitle="HOT RELOADING"
@@ -229,7 +195,6 @@ const XBLTFeatures = () => {
               desc="Modifications happen instantly. Our custom Webpack configuration pushes HMR updates faster than you can blink."
             />
 
-            {/* STEP 4: SYNC */}
             <FeatureStep
               title="4. Global Edge Sync"
               subtitle="DEPLOYMENT"
@@ -237,7 +202,6 @@ const XBLTFeatures = () => {
               desc="Once local tests pass, the engine shards your build and pushes it to Vercel's Edge Network across 32 regions."
             />
 
-            {/* STEP 5: SECURITY */}
             <FeatureStep
               title="5. Defense Grid"
               subtitle="ENTERPRISE SECURITY"
@@ -246,10 +210,8 @@ const XBLTFeatures = () => {
             />
           </div>
 
-          {/* RIGHT: THE HOLOGRAM (Pinned) */}
           <div className="hidden md:flex md:w-1/2 h-screen pinned-visual sticky top-0 items-center justify-center p-6 lg:p-12">
             <div className="relative w-full h-150 bg-black border border-white/10 rounded-3xl overflow-hidden shadow-2xl flex flex-col">
-              {/* HOLOGRAM HEADER */}
               <div className="h-12 border-b border-white/10 flex items-center justify-between px-6 bg-white/2">
                 <div className="flex gap-2">
                   <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse"></div>
@@ -266,9 +228,7 @@ const XBLTFeatures = () => {
                 </div>
               </div>
 
-              {/* HOLOGRAM CONTENT AREA */}
               <div className="flex-1 relative overflow-hidden p-8 flex items-center justify-center">
-                {/* Scanline Effect */}
                 <div className="absolute inset-0 bg-[linear-linear(to_bottom,transparent_50%,rgba(0,0,0,0.3)_51%)] bg-size-[100%_4px] pointer-events-none z-20 opacity-20"></div>
                 <div className="absolute top-0 left-0 w-full h-1 bg-[#E2F609]/20 shadow-[0_0_20px_rgba(226,246,9,0.5)] z-20 animate-scan"></div>
 
@@ -281,7 +241,6 @@ const XBLTFeatures = () => {
                 </AnimatePresence>
               </div>
 
-              {/* HOLOGRAM FOOTER */}
               <div className="h-10 border-t border-white/10 flex items-center justify-between px-6 bg-white/2 text-[10px] font-mono text-gray-500">
                 <span>CPU: 12%</span>
                 <span>RAM: 402MB</span>
@@ -289,16 +248,13 @@ const XBLTFeatures = () => {
                 <span className="text-[#E2F609]">ONLINE</span>
               </div>
 
-              {/* Glow Underlay */}
               <div className="absolute inset-0 z-[-1] bg-linear-to-tr from-[#E2F609]/5 to-transparent"></div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* --- FOOTER CTA SECTION --- */}
       <section className="py-32 bg-[#050505] border-t border-white/10 relative overflow-hidden">
-        {/* Giant Glow */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-75 bg-[#E2F609]/5 blur-[100px] rounded-full pointer-events-none"></div>
 
         <div className="max-w-4xl mx-auto text-center px-6 relative z-10">
@@ -321,61 +277,10 @@ const XBLTFeatures = () => {
         </div>
       </section>
 
-      {/* --- MAIN FOOTER --- */}
-      <footer className="bg-black py-12 px-6 border-t border-white/10 text-sm">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-          <div className="flex items-center gap-2">
-            <Zap className="w-5 h-5 text-[#E2F609] fill-[#E2F609]" />
-            <span className="font-bold text-lg text-white">XBLT.AI</span>
-          </div>
-
-          <div className="flex gap-8 text-gray-500 font-medium">
-            <a href="#" className="hover:text-[#E2F609] transition-colors">
-              Manifesto
-            </a>
-            <a href="#" className="hover:text-[#E2F609] transition-colors">
-              Pricing
-            </a>
-            <a href="#" className="hover:text-[#E2F609] transition-colors">
-              Enterprise
-            </a>
-            <a href="#" className="hover:text-[#E2F609] transition-colors">
-              Changelog
-            </a>
-          </div>
-
-          <div className="flex gap-4">
-            <a
-              href="#"
-              className="text-gray-500 hover:text-white transition-colors"
-            >
-              <Twitter className="w-5 h-5" />
-            </a>
-            <a
-              href="#"
-              className="text-gray-500 hover:text-white transition-colors"
-            >
-              <Github className="w-5 h-5" />
-            </a>
-            <a
-              href="#"
-              className="text-gray-500 hover:text-white transition-colors"
-            >
-              <Disc className="w-5 h-5" />
-            </a>{" "}
-            // Disc Icon for Discord
-          </div>
-        </div>
-        <div className="max-w-7xl mx-auto mt-8 pt-8 border-t border-white/5 text-center text-gray-600 text-xs">
-          © 2026 XBLT Inc. All rights reserved. System Status:{" "}
-          <span className="text-green-500">Operational</span>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };
-
-/* --- SUB-COMPONENTS (THE VISUALS) --- */
 
 const FeatureStep = ({ title, subtitle, icon, desc }: any) => (
   <div className="feature-step min-h-[80vh] flex flex-col justify-center border-l border-white/10 pl-8 ml-4">
@@ -387,7 +292,6 @@ const FeatureStep = ({ title, subtitle, icon, desc }: any) => (
   </div>
 );
 
-// 1. NEURAL (FIXED: DETERMINISTIC MATH)
 const VisualNeural = () => (
   <motion.div
     initial={{ opacity: 0, scale: 0.8 }}
@@ -400,7 +304,6 @@ const VisualNeural = () => (
         <div
           key={i}
           className="bg-[#E2F609] rounded-sm"
-          // FIX: Deterministic value ensures Server matches Client
           style={{ opacity: 0.1 + ((i * 13) % 10) / 20 }}
         ></div>
       ))}
@@ -427,7 +330,6 @@ const VisualNeural = () => (
   </motion.div>
 );
 
-// 2. FILES
 const VisualFiles = () => (
   <motion.div
     initial={{ opacity: 0, x: 50 }}
@@ -484,7 +386,6 @@ const VisualFiles = () => (
   </motion.div>
 );
 
-// 3. CODE
 const VisualCode = () => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
@@ -543,7 +444,6 @@ const VisualCode = () => (
   </motion.div>
 );
 
-// 4. GLOBE / SYNC
 const VisualGlobe = () => (
   <motion.div
     initial={{ opacity: 0, scale: 0.5 }}
@@ -556,7 +456,6 @@ const VisualGlobe = () => (
 
     <Globe className="w-24 h-24 text-blue-500 relative z-10" />
 
-    {/* Satellites */}
     <motion.div
       animate={{ rotate: 360 }}
       transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
@@ -571,7 +470,6 @@ const VisualGlobe = () => (
   </motion.div>
 );
 
-// 5. SECURITY
 const VisualSecurity = () => (
   <motion.div
     initial={{ opacity: 0 }}

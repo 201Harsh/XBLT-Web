@@ -19,6 +19,8 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import Link from "next/link";
+import Header from "../Components/Header";
+import Footer from "../Components/Footer";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -32,14 +34,11 @@ const XBLTLP = () => {
 
   const { scrollYProgress } = useScroll();
 
-  // Parallax effects for Framer elements
   const yHero = useTransform(scrollYProgress, [0, 0.2], [0, -100]);
   const opacityHero = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
 
-  // --- GSAP Animation for "Thunder" Look ---
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // 1. Initial Thunder Strike Animation
       const tl = gsap.timeline();
 
       tl.fromTo(
@@ -61,10 +60,9 @@ const XBLTLP = () => {
         repeat: -1,
         yoyo: true,
         duration: 0.1,
-        repeatDelay: 2, // Random flicker effect
+        repeatDelay: 2,
       });
 
-      // 2. Scroll Based Text Reveal (GSAP ScrollTrigger)
       const revealElements = gsap.utils.toArray(".gsap-reveal");
       revealElements.forEach((elem: any) => {
         gsap.fromTo(
@@ -92,56 +90,15 @@ const XBLTLP = () => {
       ref={containerRef}
       className="min-h-screen bg-black text-white selection:bg-[#E2F609] selection:text-black overflow-x-hidden font-sans"
     >
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 backdrop-blur-md border-b border-white/10 bg-black/50">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-          <div className="flex items-center gap-2 group cursor-pointer">
-            <Zap className="w-6 h-6 text-[#E2F609] fill-[#E2F609] group-hover:scale-110 transition-transform" />
-            <span className="font-bold text-xl tracking-tighter">
-              XBLT<span className="text-[#E2F609]">.AI</span>
-            </span>
-          </div>
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
-            <Link
-              href="/features"
-              className="hover:text-[#E2F609] transition-colors"
-            >
-              Features
-            </Link>
-            <a
-              href="#engine"
-              className="hover:text-[#E2F609] transition-colors"
-            >
-              The Engine
-            </a>
-            <a
-              href="#comparison"
-              className="hover:text-[#E2F609] transition-colors"
-            >
-              Web vs Desktop
-            </a>
-          </div>
-          <div className="flex gap-4">
-            <button className="text-sm font-semibold hover:text-white text-gray-400 transition-colors">
-              Login
-            </button>
-            <button className="bg-white text-black px-4 py-2 rounded-lg text-sm font-bold hover:bg-[#E2F609] transition-colors">
-              Get Early Access
-            </button>
-          </div>
-        </div>
-      </nav>
+      <Header />
 
-      {/* --- HERO SECTION (PRESERVED) --- */}
       <motion.section
         ref={heroRef}
         style={{ y: yHero, opacity: opacityHero }}
         className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 px-6 flex flex-col items-center justify-center text-center max-w-7xl mx-auto min-h-[90vh]"
       >
-        {/* Background linears/Glows */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-200 h-200 bg-[#E2F609]/10 rounded-full blur-[120px] -z-10 pointer-events-none" />
 
-        {/* Thunder SVG Background Element (GSAP Controlled) */}
         <svg
           ref={boltRef}
           className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-150 -z-10 opacity-30 pointer-events-none"
@@ -159,7 +116,6 @@ const XBLTLP = () => {
           />
         </svg>
 
-        {/* Badge */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -170,7 +126,6 @@ const XBLTLP = () => {
           <span>V2.0 IS LIVE: AGENTIC WORKFLOWS</span>
         </motion.div>
 
-        {/* Main Headline */}
         <motion.h1
           ref={textRef}
           className="text-5xl md:text-7xl lg:text-9xl font-bold tracking-tighter leading-[0.9] mb-6"
@@ -195,7 +150,6 @@ const XBLTLP = () => {
           <span className="text-[#E2F609]">Instantly.</span>
         </motion.p>
 
-        {/* Prompt Input Mockup */}
         <motion.div
           className="w-full max-w-3xl relative group mb-12"
           initial={{ opacity: 0, y: 30 }}
@@ -220,7 +174,6 @@ const XBLTLP = () => {
           </div>
         </motion.div>
 
-        {/* CTA Buttons */}
         <motion.div
           className="flex flex-col md:flex-row gap-4 w-full md:w-auto"
           initial={{ opacity: 0 }}
@@ -242,14 +195,12 @@ const XBLTLP = () => {
         </motion.div>
       </motion.section>
 
-      {/* --- SECTION 2: SOCIAL PROOF (MARQUEE) --- */}
       <div className="w-full border-y border-white/5 bg-white/2 py-8 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center gap-8">
           <span className="text-xs font-mono text-gray-500 uppercase tracking-widest whitespace-nowrap">
             Trusted by Developers at
           </span>
           <div className="flex gap-12 opacity-40 grayscale mix-blend-screen w-full justify-between items-center">
-            {/* Mock Logos */}
             <span className="text-xl font-bold">ACME</span>
             <span className="text-xl font-bold">STRIPE</span>
             <span className="text-xl font-bold">VERCEL</span>
@@ -259,7 +210,6 @@ const XBLTLP = () => {
         </div>
       </div>
 
-      {/* --- SECTION 3: THE PROBLEM (INTERACTIVE GRID) --- */}
       <section className="py-32 bg-[#050505] relative">
         <div className="max-w-7xl mx-auto px-6">
           <div className="mb-20 text-center">
@@ -296,7 +246,6 @@ const XBLTLP = () => {
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10">
-            {/* Left: The Issue */}
             <div className="space-y-6">
               <ProblemCard
                 icon={<WifiOff className="text-red-500" />}
@@ -315,7 +264,6 @@ const XBLTLP = () => {
               />
             </div>
 
-            {/* Right: The Solution Visual */}
             <div className="gsap-reveal relative rounded-3xl bg-zinc-900/50 border border-white/10 overflow-hidden flex items-center justify-center min-h-100">
               <div className="absolute inset-0 bg-[url('https://grainy-linears.vercel.app/noise.svg')] opacity-20"></div>
               <div className="relative text-center z-10">
@@ -327,7 +275,6 @@ const XBLTLP = () => {
                   Web Accessibility + Native Power
                 </p>
               </div>
-              {/* Animated Rings */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-75 h-75 border border-white/5 rounded-full animate-ping [animation-duration:3s]" />
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-112.5 h-112.5 border border-white/5 rounded-full animate-pulse" />
             </div>
@@ -335,12 +282,10 @@ const XBLTLP = () => {
         </div>
       </section>
 
-      {/* --- SECTION 4: THE ENGINE SPECS (BENTO GRID) --- */}
       <section
         id="engine"
         className="py-32 bg-black border-t border-white/10 relative overflow-hidden"
       >
-        {/* Ambient Glow */}
         <div className="absolute right-0 top-1/2 -translate-y-1/2 w-125 h-125 bg-yellow-300/15 blur-[180px] rounded-full pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-6">
@@ -349,7 +294,6 @@ const XBLTLP = () => {
           </h2>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[350px]">
-            {/* Card 1: Large */}
             <div className="gsap-reveal md:col-span-2 bg-[#080808] border border-white/10 rounded-3xl p-10 relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-10 opacity-20 group-hover:opacity-100 transition-opacity duration-500">
                 <Cpu className="w-48 h-48 text-[#E2F609]" strokeWidth={0.5} />
@@ -382,7 +326,6 @@ const XBLTLP = () => {
               </div>
             </div>
 
-            {/* Card 2: Tall */}
             <div className="gsap-reveal bg-[#080808] border border-white/10 rounded-3xl p-10 relative overflow-hidden group hover:border-[#E2F609]/30 transition-colors">
               <div className="absolute inset-0 bg-linear-to-b from-blue-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <Globe className="w-10 h-10 text-blue-400 mb-6" />
@@ -393,7 +336,6 @@ const XBLTLP = () => {
               </p>
             </div>
 
-            {/* Card 3 */}
             <div className="gsap-reveal bg-[#080808] border border-white/10 rounded-3xl p-10 relative overflow-hidden group hover:border-[#E2F609]/30 transition-colors">
               <ShieldCheck className="w-10 h-10 text-green-400 mb-6" />
               <h3 className="text-xl font-bold mb-2">Enterprise Auth</h3>
@@ -403,7 +345,6 @@ const XBLTLP = () => {
               </p>
             </div>
 
-            {/* Card 4: Wide */}
             <div className="gsap-reveal md:col-span-2 bg-[#080808] border border-white/10 rounded-3xl p-10 relative overflow-hidden flex items-center">
               <div className="flex-1">
                 <h3 className="text-2xl font-bold mb-4">Plugin Architecture</h3>
@@ -431,7 +372,6 @@ const XBLTLP = () => {
         </div>
       </section>
 
-      {/* --- SECTION 5: COMPARISON (THE SHOWDOWN) --- */}
       <section id="comparison" className="py-32 bg-[#050505] relative z-10">
         <div className="max-w-5xl mx-auto px-6">
           <h2 className="gsap-reveal text-center text-3xl md:text-5xl font-bold mb-4">
@@ -443,7 +383,6 @@ const XBLTLP = () => {
           </p>
 
           <div className="gsap-reveal border border-white/10 rounded-2xl overflow-hidden bg-[#0A0A0A] shadow-2xl">
-            {/* Table Header */}
             <div className="grid grid-cols-3 p-6 border-b border-white/10 bg-white/2 font-mono text-sm uppercase tracking-widest text-gray-500">
               <div>Feature</div>
               <div className="text-center">Web App</div>
@@ -452,7 +391,6 @@ const XBLTLP = () => {
               </div>
             </div>
 
-            {/* Rows */}
             <div className="divide-y divide-white/5">
               <ComparisonRow
                 feature="Startup Speed"
@@ -484,48 +422,8 @@ const XBLTLP = () => {
         </div>
       </section>
 
-      {/* --- SECTION 6: VISION / FOOTER --- */}
-      <footer className="relative py-32 bg-black border-t border-white/10 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
-          <h2 className="gsap-reveal text-6xl md:text-8xl font-bold tracking-tighter mb-8">
-            THINK. <br />
-            <span className="text-transparent bg-clip-text bg-linear-to-b from-[#E2F609] to-transparent">
-              EXECUTE.
-            </span>
-          </h2>
-          <p className="gsap-reveal text-xl text-gray-400 mb-12 max-w-2xl mx-auto">
-            XBLT sits between your thoughts, your system, and your cloud
-            services. It is the Personal Execution Engine for the next
-            generation of builders.
-          </p>
+      <Footer />
 
-          <div className="gsap-reveal flex flex-col sm:flex-row items-center justify-center gap-6 mb-20">
-            <button className="px-8 py-4 bg-[#E2F609] text-black font-bold rounded-xl hover:bg-[#c9db08] transition-all w-full sm:w-auto">
-              Start Building Free
-            </button>
-            <button className="px-8 py-4 bg-zinc-900 border border-white/10 text-white font-bold rounded-xl hover:bg-zinc-800 transition-all w-full sm:w-auto">
-              Read Manifesto
-            </button>
-          </div>
-
-          <div className="border-t border-white/10 pt-12 flex flex-col md:flex-row justify-between items-center text-gray-600 text-sm">
-            <p>© {new Date().getFullYear()} XBLT Inc.</p>
-            <div className="flex gap-6 mt-4 md:mt-0">
-              <a href="#" className="hover:text-white">
-                Twitter
-              </a>
-              <a href="#" className="hover:text-white">
-                GitHub
-              </a>
-              <a href="#" className="hover:text-white">
-                Discord
-              </a>
-            </div>
-          </div>
-        </div>
-      </footer>
-
-      {/* --- SCROLL PROGRESS INDICATOR --- */}
       <motion.div
         className="fixed bottom-0 left-0 right-0 h-1 bg-[#E2F609] origin-left z-50"
         style={{ scaleX: scrollYProgress }}
@@ -533,8 +431,6 @@ const XBLTLP = () => {
     </div>
   );
 };
-
-// --- SUB COMPONENTS ---
 
 const FeatureCard = ({
   title,
