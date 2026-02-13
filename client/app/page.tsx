@@ -1,5 +1,11 @@
+import XBLTLP from "./Landing/XBLTLP";
+
 const page = () => {
-  return <div>page</div>;
+  return (
+    <>
+      <XBLTLP />
+    </>
+  );
 };
 
 export default page;
