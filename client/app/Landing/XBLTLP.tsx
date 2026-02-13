@@ -18,6 +18,7 @@ import {
   Layers,
   ShieldCheck,
 } from "lucide-react";
+import Link from "next/link";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -226,11 +227,13 @@ const XBLTLP = () => {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
         >
-          <button className="cursor-pointer group relative px-8 py-4 bg-[#E2F609] text-black font-bold rounded-full overflow-hidden flex items-center justify-center gap-3 hover:scale-105 transition-transform">
-            <div className="absolute inset-0 bg-white/40 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-            <UserPlus className="w-5 h-5 relative z-10" />
-            <span className="relative z-10">Create Free Account</span>
-          </button>
+          <Link href="/signin">
+            <button className="cursor-pointer group relative px-8 py-4 bg-[#E2F609] text-black font-bold rounded-full overflow-hidden flex items-center justify-center gap-3 hover:scale-105 transition-transform">
+              <div className="absolute inset-0 bg-white/40 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
+              <UserPlus className="w-5 h-5 relative z-10" />
+              <span className="relative z-10">Create Free Account</span>
+            </button>
+          </Link>
 
           <button className="cursor-pointer px-8 py-4 bg-transparent border border-white/20 text-white font-bold rounded-full flex items-center justify-center gap-3 hover:bg-white/5 hover:border-[#E2F609]/50 transition-all">
             <Download className="w-5 h-5" />
