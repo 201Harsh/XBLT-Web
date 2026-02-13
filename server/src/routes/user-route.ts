@@ -1,15 +1,24 @@
 import { Router } from "express";
-import ValidateData from "../middlewares/validate-date.js";
-import { body } from "express-validator";
-import { GenerateOTP } from "../controllers/user-controller.js";
+import { RegisterAndLoginUsingGoogle } from "../controllers/user-controller.js";
+import passport from "../lib/passport.js";
 
 const userRouter = <Router>Router();
 
-userRouter.post(
-  "/otp-generate",
-  [body("email").isEmail().withMessage("Invalid Email")],
-  ValidateData,
-  GenerateOTP,
+userRouter.get(
+  "/google",
+  passport.authenticate("google", {
+    session: false,
+    scope: ["profile", "email"],
+  }),
+);
+
+userRouter.get(
+  "/google/callback",
+  passport.authenticate("google", {
+    session: false,
+    failureRedirect: "/signin",
+  }),
+  RegisterAndLoginUsingGoogle,
 );
 
 export default userRouter;
