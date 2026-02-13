@@ -1,49 +1,30 @@
-import OTPModel from "../models/otp-model.js";
-import UserModel from "../models/user-model.js";
 import { Request, Response } from "express";
-import { generateOtpService } from "../services/user-service.js";
 
-export const GenerateOTP = async (
+interface GoogleUser {
+  _id: string;
+  email: string;
+  JwtGenToken: () => string;
+}
+
+export const RegisterAndLoginUsingGoogle = async (
   req: Request,
   res: Response,
-): Promise<Response> => {
-  const { email }: { email: string } = req.body;
-
+) => {
   try {
-    if (!email) {
-      return res.status(400).json({
-        message: "Email is required",
-      });
+    const user = req.user as GoogleUser;
+
+    if (!user) {
+      return res.redirect(`${process.env.CLIENT_SIDE_URL}/login?error=NoUser`);
     }
 
-    const user = await UserModel.findOne({ email });
+    const token = user.JwtGenToken();
 
-    if (user) {
-      return res.status(400).json({
-        message: "User already Created with this email",
-      });
-    }
+    const nextJsApiUrl = `${process.env.CLIENT_SIDE_URL}/api/auth`;
 
-    const otpModel = await OTPModel.findOne({ email });
-
-    if (otpModel) {
-      const currentTime = <Date>new Date();
-      if (otpModel.expiresAt > currentTime) {
-        return res.status(400).json({
-          message: "OTP already sent. Please check your email.",
-        });
-      }
-    }
-
-    await generateOtpService(email);
-
-    return res.status(200).json({
-      message: "OTP sent successfully",
-    });
-    
+    return res.redirect(`${nextJsApiUrl}?token=${token}`);
   } catch (error) {
-    return res.status(500).json({
-      message: "Something went wrong",
-    });
+    return res.redirect(
+      `${process.env.CLIENT_SIDE_URL}/signin?error=AuthFailed`,
+    );
   }
 };
