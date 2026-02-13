@@ -14,7 +14,7 @@ export const RegisterAndLoginUsingGoogle = async (
     const user = req.user as GoogleUser;
 
     if (!user) {
-      return res.redirect(`${process.env.CLIENT_SIDE_URL}/login?error=NoUser`);
+      return res.redirect(`${process.env.CLIENT_SIDE_URL}/signin?error=NoUser`);
     }
 
     const token = user.JwtGenToken();
@@ -23,6 +23,7 @@ export const RegisterAndLoginUsingGoogle = async (
 
     return res.redirect(`${nextJsApiUrl}?token=${token}`);
   } catch (error) {
+    console.log(error)
     return res.redirect(
       `${process.env.CLIENT_SIDE_URL}/signin?error=AuthFailed`,
     );

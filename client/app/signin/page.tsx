@@ -124,10 +124,7 @@ const SignInContent = () => {
       <div className="absolute top-[-10%] left-[-10%] w-125 h-125 bg-yellow-500/10 rounded-full blur-[120px]" />
       <div className="absolute bottom-[-10%] right-[-10%] w-125 h-125 bg-yellow-500/5 rounded-full blur-[120px]" />
 
-      <div
-        ref={containerRef}
-        className="relative z-10 w-full max-w-110 px-6"
-      >
+      <div ref={containerRef} className="relative z-10 w-full max-w-110 px-6">
         <div className="text-center mb-10">
           <motion.div
             className="inline-block p-3 rounded-2xl bg-linear-to-b from-zinc-800 to-black border border-zinc-800 mb-4 animate-in"
