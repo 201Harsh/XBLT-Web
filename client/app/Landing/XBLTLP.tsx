@@ -102,12 +102,12 @@ const XBLTLP = () => {
             </span>
           </div>
           <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
-            <a
-              href="#features"
+            <Link
+              href="/features"
               className="hover:text-[#E2F609] transition-colors"
             >
               Features
-            </a>
+            </Link>
             <a
               href="#engine"
               className="hover:text-[#E2F609] transition-colors"
