@@ -1,24 +1,49 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Suspense } from "react";
 import { FcGoogle } from "react-icons/fc";
-import { BiErrorCircle } from "react-icons/bi"; // Added Error Icon
+import { BiErrorCircle } from "react-icons/bi";
 import { motion, AnimatePresence } from "framer-motion";
 import gsap from "gsap";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
-import AxiosProxyInstance from "../config/AxiosProxyInstance";
 
-const SignInPage = () => {
+const SignInContent = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null); // Error State
+  const [error, setError] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const cardRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    // GSAP Entrance Animation
+    const errorParam = searchParams.get("error");
+
+    if (errorParam) {
+      let message = "An unexpected error occurred.";
+
+      switch (errorParam) {
+        case "Google_Auth_Failed":
+          message = "Google Authentication was canceled or failed.";
+          break;
+        case "Access_Denied":
+          message = "You do not have permission to access this resource.";
+          break;
+        default:
+          message = errorParam.replace(/_/g, " ");
+      }
+
+      setError(message);
+
+      router.replace("/signin");
+
+      const timer = setTimeout(() => setError(null), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [searchParams, router]);
+
+  useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(containerRef.current, {
         opacity: 0,
@@ -37,7 +62,6 @@ const SignInPage = () => {
       });
     });
 
-    // High-performance background particles
     const createParticles = () => {
       if (!particlesRef.current) return;
       particlesRef.current.innerHTML = "";
@@ -80,10 +104,11 @@ const SignInPage = () => {
     } catch (err: any) {
       console.error("Authentication failed:", err);
       setError(
-        err.response?.data?.message || "Connection failed. Please try again.",
+        err.response?.data?.message ||
+          err.response?.data?.error ||
+          "Authentication failed. Please try again.",
       );
       setIsLoading(false);
-
       setTimeout(() => setError(null), 4000);
     }
   };
@@ -92,22 +117,20 @@ const SignInPage = () => {
 
   return (
     <div className="min-h-screen bg-black text-white relative overflow-hidden flex items-center justify-center font-sans">
-      {/* Background Elements */}
       <div
         ref={particlesRef}
         className="absolute inset-0 pointer-events-none"
       />
-      <div className="absolute top-[-10%] left-[-10%] w-[500px] h-[500px] bg-yellow-500/10 rounded-full blur-[120px]" />
-      <div className="absolute bottom-[-10%] right-[-10%] w-[500px] h-[500px] bg-yellow-500/5 rounded-full blur-[120px]" />
+      <div className="absolute top-[-10%] left-[-10%] w-125 h-125 bg-yellow-500/10 rounded-full blur-[120px]" />
+      <div className="absolute bottom-[-10%] right-[-10%] w-125 h-125 bg-yellow-500/5 rounded-full blur-[120px]" />
 
       <div
         ref={containerRef}
-        className="relative z-10 w-full max-w-[440px] px-6"
+        className="relative z-10 w-full max-w-110 px-6"
       >
-        {/* Logo Section */}
         <div className="text-center mb-10">
           <motion.div
-            className="inline-block p-3 rounded-2xl bg-gradient-to-b from-zinc-800 to-black border border-zinc-800 mb-4 animate-in"
+            className="inline-block p-3 rounded-2xl bg-linear-to-b from-zinc-800 to-black border border-zinc-800 mb-4 animate-in"
             whileHover={{ rotate: 5 }}
           >
             <Image
@@ -126,7 +149,6 @@ const SignInPage = () => {
           </p>
         </div>
 
-        {/* Main Card */}
         <div
           ref={cardRef}
           className="bg-zinc-900/40 backdrop-blur-xl border border-zinc-800 rounded-3xl p-8 shadow-2xl relative overflow-hidden animate-in"
@@ -139,7 +161,6 @@ const SignInPage = () => {
               Sign in to continue to your dashboard
             </p>
 
-            {/* Error Block Animation */}
             <AnimatePresence>
               {error && (
                 <motion.div
@@ -148,9 +169,9 @@ const SignInPage = () => {
                   exit={{ opacity: 0, height: 0, marginBottom: 0 }}
                   className="overflow-hidden"
                 >
-                  <div className="flex items-center gap-3 bg-red-500/10 border border-red-500/20 text-red-200 text-sm px-4 py-3 rounded-xl">
-                    <BiErrorCircle className="text-xl text-red-400 min-w-[20px]" />
-                    <span>{error}</span>
+                  <div className="flex items-start gap-3 bg-red-500/10 border border-red-500/20 text-red-200 text-sm px-4 py-3 rounded-xl">
+                    <BiErrorCircle className="text-xl text-red-400 min-w-5 mt-0.5" />
+                    <span className="leading-tight">{error}</span>
                   </div>
                 </motion.div>
               )}
@@ -185,11 +206,9 @@ const SignInPage = () => {
             </motion.button>
           </div>
 
-          {/* Decorative Corner Glow */}
           <div className="absolute top-0 right-0 w-24 h-24 bg-yellow-400/10 blur-2xl -mr-12 -mt-12" />
         </div>
 
-        {/* Footer Links */}
         <div className="mt-8 text-center animate-in">
           <p className="text-zinc-500 text-xs leading-relaxed">
             By continuing, you agree to our <br />
@@ -217,6 +236,14 @@ const SignInPage = () => {
         </div>
       </div>
     </div>
+  );
+};
+
+const SignInPage = () => {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-black" />}>
+      <SignInContent />
+    </Suspense>
   );
 };
 
