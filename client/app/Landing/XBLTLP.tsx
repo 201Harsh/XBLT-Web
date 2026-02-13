@@ -279,7 +279,7 @@ const XBLTLP = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div id="#features" className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <FeatureCard
               title="Build Anything"
               desc="From a CLI tool to a full SaaS, XBLT can generate any type of software product with 0ms latency."
