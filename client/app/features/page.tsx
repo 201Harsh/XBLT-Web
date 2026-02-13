@@ -14,7 +14,6 @@ import {
   Network,
   FileJson,
   Lock,
-  ArrowRight,
 } from "lucide-react";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
@@ -250,29 +249,6 @@ const XBLTFeatures = () => {
 
               <div className="absolute inset-0 z-[-1] bg-linear-to-tr from-[#E2F609]/5 to-transparent"></div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-32 bg-[#050505] border-t border-white/10 relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-150 h-75 bg-[#E2F609]/5 blur-[100px] rounded-full pointer-events-none"></div>
-
-        <div className="max-w-4xl mx-auto text-center px-6 relative z-10">
-          <h2 className="text-5xl md:text-7xl font-bold tracking-tight mb-8 text-white">
-            READY TO <span className="text-[#E2F609]">THUNDER?</span>
-          </h2>
-          <p className="text-gray-400 text-lg mb-12">
-            Join 10,000+ developers shipping apps at the speed of thought.{" "}
-            <br className="hidden md:block" />
-            Download the engine today.
-          </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button className="px-8 py-4 bg-[#E2F609] text-black font-bold rounded-xl hover:bg-[#d4e608] transition-colors w-full sm:w-auto hover:shadow-[0_0_30px_rgba(226,246,9,0.4)]">
-              Get Started Free
-            </button>
-            <button className="px-8 py-4 bg-transparent border border-white/20 text-white font-bold rounded-xl hover:bg-white/5 transition-colors w-full sm:w-auto flex items-center justify-center gap-2">
-              Read Documentation <ArrowRight className="w-4 h-4" />
-            </button>
           </div>
         </div>
       </section>
