@@ -5,12 +5,12 @@ const Header = () => {
   return (
     <nav className="fixed top-0 w-full z-50 backdrop-blur-md border-b border-white/10 bg-black/50">
       <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-        <div className="flex items-center gap-2 group cursor-pointer">
+        <Link href="/" className="flex items-center gap-2 group cursor-pointer">
           <Zap className="w-6 h-6 text-[#E2F609] fill-[#E2F609] group-hover:scale-110 transition-transform" />
           <span className="font-bold text-xl tracking-tighter">
             XBLT<span className="text-[#E2F609]">.AI</span>
           </span>
-        </div>
+        </Link>
         <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
           <Link
             href="/features"
