@@ -18,6 +18,7 @@ const Header = () => {
   }, [isOpen]);
 
   const navLinks = [
+    { name: "About", href: "/about" },
     { name: "Features", href: "/features" },
     { name: "The Engine", href: "/engine" },
     { name: "Web vs Desktop", href: "/#comparison" },
