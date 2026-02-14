@@ -8,7 +8,6 @@ import { motion, AnimatePresence } from "framer-motion";
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  // Lock body scroll when menu is open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = "hidden";
@@ -21,7 +20,7 @@ const Header = () => {
     { name: "About", href: "/about" },
     { name: "Features", href: "/features" },
     { name: "The Engine", href: "/engine" },
-    { name: "Web vs Desktop", href: "/#comparison" },
+    { name: "Documentation", href: "/docs" },
     { name: "Showcase", href: "/#showcase" },
   ];
 
