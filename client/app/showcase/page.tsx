@@ -162,7 +162,7 @@ const ShowcasePage = () => {
 
       {/* --- CTA BANNER --- */}
       <section className="py-40 border-t border-white/10 bg-black relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[#E2F609]/5 blur-[120px] rounded-full pointer-events-none"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-[#E2F609]/5 blur-[120px] rounded-full pointer-events-none"></div>
         <div className="max-w-4xl mx-auto text-center relative z-10 px-6">
           <h2 className="text-5xl md:text-7xl font-bold mb-8 tracking-tighter text-white">
             SHIP YOUR <span className="text-[#E2F609]">MASTERPIECE</span>
@@ -240,7 +240,7 @@ const SpotlightHero = () => {
 
           {/* 2. Revealed Neon Text (Masked by Mouse) */}
           <motion.h1
-            className="absolute top-0 left-0 w-full text-6xl md:text-9xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-[#E2F609] pointer-events-none"
+            className="absolute top-0 left-0 w-full text-6xl md:text-9xl font-bold tracking-tighter text-transparent bg-clip-text bg-linear-to-b from-white to-[#E2F609] pointer-events-none"
             style={{
               // The clip-path coordinate system is local to this element.
               // Since we calculated mouse X/Y relative to this element, it matches perfectly.
@@ -310,7 +310,7 @@ const ProjectCard = ({ project, index }: { project: any; index: number }) => {
       className="group relative bg-[#0A0A0A] border border-white/10 rounded-3xl overflow-hidden hover:border-[#E2F609]/50 transition-colors duration-500 perspective-1000"
     >
       <div
-        className="aspect-[4/3] relative overflow-hidden bg-[#111]"
+        className="aspect-4/3 relative overflow-hidden bg-[#111]"
         style={{ transform: "translateZ(20px)" }}
       >
         <Image
