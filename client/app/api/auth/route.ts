@@ -21,5 +21,5 @@ export async function GET(req: Request) {
     maxAge: 60 * 60 * 24,
   });
 
-  return NextResponse.redirect(new URL("/dash", req.url));
+  return NextResponse.redirect(new URL("/gen", req.url));
 }
