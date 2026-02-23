@@ -4,9 +4,12 @@ const groq = new Groq({ apiKey: process.env.XBLT_AI_BRAIN_API_KEY as string });
 
 export async function XBOLTBrain({ prompt }: { prompt: string }) {
   const stream = await getGroqChatStream(prompt);
+  let response = "";
   for await (const chunk of stream) {
     process.stdout.write(chunk.choices[0]?.delta?.content || "");
+    response += chunk.choices[0]?.delta?.content || "";
   }
+  return response;
 }
 
 export async function getGroqChatStream(prompt: string) {

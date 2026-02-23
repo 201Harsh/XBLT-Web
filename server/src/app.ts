@@ -2,6 +2,7 @@ import express from "express";
 import userRouter from "./routes/user-route.js";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import aiRouter from "./routes/ai-route.js";
 
 const app = express();
 
@@ -11,5 +12,6 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use("/users", userRouter);
+app.use("/ai", aiRouter);
 
 export default app;
