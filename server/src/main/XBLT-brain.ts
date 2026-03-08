@@ -12,15 +12,11 @@ const model = new ChatGroq({
 const agent = createAgent({
   model,
   tools: [],
+  systemPrompt: new SystemMessage("You are a helpful assistant named XBOLT."),
 });
 
 export async function XBOLTBrain({ prompt }: { prompt: string }) {
-  const messages = [
-    new SystemMessage(
-      "You are a helpful assistant named XBOLT your are a Agentic AI Boss.",
-    ),
-    new HumanMessage(prompt),
-  ];
+  const messages = [new HumanMessage(prompt)];
 
   const stream = await agent.stream(
     {
