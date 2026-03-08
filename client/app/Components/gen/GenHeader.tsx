@@ -5,18 +5,19 @@ import {
   LogOut,
   User,
 } from "lucide-react";
+import Link from "next/link";
 
 const GenHeader = () => {
   return (
     <>
       <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
         <header className="rounded-full border border-white/10 bg-[#0A0A0A]/80 backdrop-blur-xl flex items-center px-2 py-2 shadow-[0_8px_32px_rgba(0,0,0,0.8)]">
-          <div className="flex items-center gap-2 pl-4 pr-6 border-r border-white/10 cursor-pointer group">
+          <Link href="/" className="flex items-center gap-2 pl-4 pr-6 border-r border-white/10 cursor-pointer group">
             <Zap className="w-5 h-5 text-[#E2F609] fill-[#E2F609] group-hover:drop-shadow-[0_0_10px_rgba(226,246,9,0.8)] transition-all" />
             <span className="font-bold tracking-tight text-sm text-white group-hover:text-[#E2F609] transition-colors">
               XBLT
             </span>
-          </div>
+          </Link>
 
           <nav className="flex items-center gap-2 px-4 border-r border-white/10">
             <button className="flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/10 text-sm text-gray-300 hover:text-white transition-colors cursor-pointer">
