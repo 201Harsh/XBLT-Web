@@ -21,16 +21,13 @@ export default function GenPage() {
     e?.preventDefault();
     if (!prompt.trim()) return;
 
-    // Generate a random ID for the session
     const sessionId = Math.random().toString(36).substring(7);
 
-    // Push to the workspace dynamic route
     router.push(`/gen/${sessionId}?prompt=${encodeURIComponent(prompt)}`);
   };
 
   return (
     <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-[#E2F609] selection:text-black overflow-hidden flex flex-col">
-      {/* HEADER */}
       <header className="fixed top-0 left-0 right-0 z-50 h-16 border-b border-white/5 bg-[#050505]/80 backdrop-blur-md flex items-center justify-between px-6">
         <div className="flex items-center gap-2">
           <Zap className="w-5 h-5 text-[#E2F609] fill-[#E2F609]" />
@@ -45,13 +42,11 @@ export default function GenPage() {
         </div>
       </header>
 
-      {/* HERO CONTENT */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="flex-1 flex flex-col items-center justify-center px-6 relative pt-24 pb-20"
       >
-        {/* Ambient Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[#E2F609]/5 blur-[150px] rounded-full pointer-events-none" />
 
         <div className="text-center mb-10 relative z-10">
@@ -64,7 +59,6 @@ export default function GenPage() {
           </p>
         </div>
 
-        {/* --- PURE GEN INPUT CONTAINER --- */}
         <div className="w-full max-w-3xl relative z-20">
           <div className="p-2 rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl shadow-2xl">
             <form onSubmit={handleGenerate} className="relative">
@@ -81,7 +75,6 @@ export default function GenPage() {
                 }}
               />
 
-              {/* Bottom Actions */}
               <div className="flex items-center justify-between px-4 pb-2">
                 <div className="text-xs text-gray-500 font-mono">
                   Press{" "}
@@ -116,7 +109,6 @@ export default function GenPage() {
             </form>
           </div>
 
-          {/* Prompt Chips */}
           <div className="flex flex-wrap justify-center gap-3 mt-6">
             {[
               "E-commerce Storefront",
@@ -134,11 +126,9 @@ export default function GenPage() {
           </div>
         </div>
 
-        {/* --- DESKTOP IDE CTA BANNER --- */}
         <div className="mt-24 w-full max-w-4xl relative z-10">
           <div className="p-[1px] rounded-3xl bg-gradient-to-b from-[#E2F609]/20 to-transparent">
             <div className="bg-[#0A0A0A] p-8 md:p-12 rounded-[23px] flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
-              {/* Inner Glow */}
               <div className="absolute top-0 right-0 p-32 bg-[#E2F609]/5 blur-[100px] rounded-full pointer-events-none" />
 
               <div className="flex-1 relative z-10">
@@ -165,7 +155,6 @@ export default function GenPage() {
                 </div>
               </div>
 
-              {/* Feature Icons Grid */}
               <div className="grid grid-cols-1 gap-4 relative z-10 shrink-0">
                 <div className="flex items-center gap-3 bg-white/5 border border-white/10 px-4 py-3 rounded-xl">
                   <Cpu className="w-5 h-5 text-[#E2F609]" />
