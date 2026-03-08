@@ -1,13 +1,10 @@
 "use client";
 
-import { useState, useEffect, useRef, use } from "react"; // 1. Import 'use'
-import Editor from "@monaco-editor/react";
+import { useState, useEffect, use } from "react";
 import {
   Zap,
-  Code2,
-  Send,
-  Monitor,
   Lock,
+  Globe,
   CheckCircle2,
   Loader2,
   ArrowLeft,
@@ -35,13 +32,11 @@ const TARGET_CODE = `<!DOCTYPE html>
 </body>
 </html>`;
 
-// 2. Type 'params' as a Promise
 export default function WorkspacePage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  // 3. Unwrap the params Promise using React.use()
   const { id } = use(params);
 
   const searchParams = useSearchParams();
@@ -49,30 +44,14 @@ export default function WorkspacePage({
   const initialPrompt = searchParams.get("prompt") || "New Project";
 
   // State
-  const [messages, setMessages] = useState<{ role: string; text: string }[]>(
-    [],
-  );
-  const [activeTab, setActiveTab] = useState<"code" | "preview">("code");
   const [code, setCode] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [streamingIndex, setStreamingIndex] = useState(0);
-
-  const chatEndRef = useRef<HTMLDivElement>(null);
+  const [visibility, setVisibility] = useState<"public" | "private">("public");
 
   // --- 1. AUTO-START GENERATION ON MOUNT ---
   useEffect(() => {
-    // Initial user message
-    setMessages([{ role: "user", text: initialPrompt }]);
-
-    // Delay slightly then start AI stream
     const timer = setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          role: "ai",
-          text: `Initializing workspace for "${initialPrompt}"... Architecture locked.`,
-        },
-      ]);
       setIsGenerating(true);
       setCode("");
       setStreamingIndex(0);
@@ -92,18 +71,8 @@ export default function WorkspacePage({
       return () => clearTimeout(timeout);
     } else if (streamingIndex >= TARGET_CODE.length && isGenerating) {
       setIsGenerating(false);
-      setActiveTab("preview"); // Switch to preview when done
-      setMessages((prev) => [
-        ...prev,
-        { role: "ai", text: "Generation complete. Previewing build." },
-      ]);
     }
   }, [isGenerating, streamingIndex]);
-
-  // Auto-scroll chat
-  useEffect(() => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
 
   return (
     <div className="h-screen bg-[#050505] text-white font-sans selection:bg-[#E2F609] selection:text-black flex flex-col overflow-hidden">
@@ -119,13 +88,42 @@ export default function WorkspacePage({
           <div className="flex items-center gap-2">
             <Zap className="w-4 h-4 text-[#E2F609] fill-[#E2F609]" />
             <span className="font-bold text-sm tracking-tight">
-              XBLT WORKSPACE
+              XBLT PREVIEW
             </span>
-            {/* 4. Use the unwrapped 'id' variable here */}
             <span className="text-xs text-gray-600 font-mono">/ {id}</span>
           </div>
         </div>
-        <div className="flex items-center gap-3">
+
+        <div className="flex items-center gap-4">
+          {/* VISIBILITY TOGGLE */}
+          <div className="flex bg-white/5 p-1 rounded-lg border border-white/10">
+            <button
+              onClick={() => setVisibility("public")}
+              className={clsx(
+                "flex items-center gap-1.5 px-3 py-1 text-xs font-medium rounded-md transition-all",
+                visibility === "public"
+                  ? "bg-white/10 text-white shadow-sm"
+                  : "text-gray-400 hover:text-gray-200",
+              )}
+            >
+              <Globe className="w-3 h-3" /> Public
+            </button>
+            <button
+              onClick={() => setVisibility("private")}
+              className={clsx(
+                "flex items-center gap-1.5 px-3 py-1 text-xs font-medium rounded-md transition-all",
+                visibility === "private"
+                  ? "bg-white/10 text-white shadow-sm"
+                  : "text-gray-400 hover:text-gray-200",
+              )}
+            >
+              <Lock className="w-3 h-3" /> Private
+            </button>
+          </div>
+
+          <div className="h-4 w-px bg-white/10" />
+
+          {/* STATUS */}
           {isGenerating ? (
             <div className="px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 text-xs rounded-full flex items-center gap-2">
               <Loader2 className="w-3 h-3 animate-spin" /> Building...
@@ -135,132 +133,47 @@ export default function WorkspacePage({
               <CheckCircle2 className="w-3 h-3" /> Ready
             </div>
           )}
-          <button className="bg-white/10 hover:bg-white/20 text-white text-xs font-bold px-4 py-1.5 rounded transition-colors">
+
+          {/* DEPLOY BUTTON */}
+          <button
+            onClick={() => console.log(`Deploying as ${visibility} website`)}
+            className="bg-[#E2F609] hover:bg-[#c8d908] text-black text-xs font-bold px-4 py-1.5 rounded transition-colors"
+          >
             Deploy
           </button>
         </div>
       </header>
 
-      {/* MAIN WORKSPACE (30/70 SPLIT) */}
-      <div className="flex-1 flex overflow-hidden">
-        {/* LEFT: CHAT (30%) */}
-        <div className="w-[30%] border-r border-white/5 bg-black/40 backdrop-blur-xl flex flex-col relative z-20">
-          <div className="flex-1 overflow-y-auto p-4 space-y-6">
-            {messages.map((m, i) => (
-              <div
-                key={i}
-                className={clsx(
-                  "flex flex-col gap-2",
-                  m.role === "user" ? "items-end" : "items-start",
-                )}
-              >
-                <div
-                  className={clsx(
-                    "max-w-[90%] p-4 rounded-2xl text-sm leading-relaxed border",
-                    m.role === "user"
-                      ? "bg-[#E2F609]/10 border-[#E2F609]/20 text-white rounded-br-sm"
-                      : "bg-white/5 border-white/10 text-gray-300 rounded-bl-sm",
-                  )}
-                >
-                  {m.text}
-                </div>
-              </div>
-            ))}
-            <div ref={chatEndRef} />
+      {/* MAIN PREVIEW AREA */}
+      <div className="flex-1 flex flex-col relative bg-[#0A0A0A] p-6 lg:p-12">
+        {/* Browser-like Toolbar for Preview */}
+        <div className="w-full max-w-6xl mx-auto bg-black border border-white/10 rounded-t-xl h-12 flex items-center px-4 gap-4 shadow-2xl">
+          <div className="flex gap-2">
+            <div className="w-3 h-3 rounded-full bg-white/10" />
+            <div className="w-3 h-3 rounded-full bg-white/10" />
+            <div className="w-3 h-3 rounded-full bg-white/10" />
           </div>
-
-          {/* Input */}
-          <div className="p-4 border-t border-white/5 bg-black/60">
-            <div className="relative">
-              <input
-                disabled={isGenerating}
-                placeholder={
-                  isGenerating ? "Wait for generation..." : "Refine code..."
-                }
-                className="w-full bg-[#0A0A0A] border border-white/10 rounded-xl pl-4 pr-12 py-3 text-sm text-white focus:border-[#E2F609]/50 outline-none disabled:opacity-50"
-              />
-              <button
-                disabled={isGenerating}
-                className="absolute right-2 top-2 p-1.5 bg-white/10 rounded-lg text-white hover:bg-[#E2F609] hover:text-black transition-colors disabled:opacity-30"
-              >
-                <Send className="w-3 h-3" />
-              </button>
+          <div className="flex-1 flex justify-center">
+            <div className="bg-white/5 border border-white/10 rounded-md px-4 py-1.5 text-xs text-gray-400 flex items-center gap-2 w-72 justify-center shadow-inner">
+              {visibility === "private" ? (
+                <Lock className="w-3 h-3" />
+              ) : (
+                <Globe className="w-3 h-3" />
+              )}
+              {id}.xblt.app
             </div>
           </div>
+          {/* Spacer to balance the layout */}
+          <div className="w-12"></div>
         </div>
 
-        {/* RIGHT: EDITOR / PREVIEW (70%) */}
-        <div className="w-[70%] bg-[#0A0A0A] flex flex-col relative">
-          {/* Tabs */}
-          <div className="h-10 border-b border-white/5 flex items-center justify-between px-4 bg-black">
-            <div className="flex gap-4">
-              <button
-                onClick={() => setActiveTab("code")}
-                className={clsx(
-                  "text-xs font-bold transition-colors flex items-center gap-2 h-10 border-b-2",
-                  activeTab === "code"
-                    ? "border-[#E2F609] text-white"
-                    : "border-transparent text-gray-500 hover:text-white",
-                )}
-              >
-                <Code2 className="w-3 h-3" /> Code
-              </button>
-              <button
-                onClick={() => setActiveTab("preview")}
-                className={clsx(
-                  "text-xs font-bold transition-colors flex items-center gap-2 h-10 border-b-2",
-                  activeTab === "preview"
-                    ? "border-[#E2F609] text-white"
-                    : "border-transparent text-gray-500 hover:text-white",
-                )}
-              >
-                <Monitor className="w-3 h-3" /> Preview
-              </button>
-            </div>
-            {isGenerating && (
-              <div className="text-[10px] text-[#E2F609] flex items-center gap-1">
-                <Lock className="w-3 h-3" /> Locked
-              </div>
-            )}
-          </div>
-
-          {/* Viewport */}
-          <div className="flex-1 relative overflow-hidden">
-            {activeTab === "code" && (
-              <div className="relative w-full h-full">
-                <Editor
-                  height="100%"
-                  defaultLanguage="html"
-                  theme="vs-dark"
-                  value={code}
-                  options={{
-                    readOnly: isGenerating,
-                    minimap: { enabled: false },
-                    fontSize: 13,
-                    fontFamily: "'JetBrains Mono', monospace",
-                    padding: { top: 16 },
-                  }}
-                  onMount={(editor, monaco) => {
-                    monaco.editor.defineTheme("xblt-dark", {
-                      base: "vs-dark",
-                      inherit: true,
-                      rules: [],
-                      colors: { "editor.background": "#050505" },
-                    });
-                    monaco.editor.setTheme("xblt-dark");
-                  }}
-                />
-              </div>
-            )}
-
-            {activeTab === "preview" && (
-              <iframe
-                srcDoc={code}
-                className="w-full h-full bg-white border-none"
-                title="Preview"
-              />
-            )}
-          </div>
+        {/* Viewport */}
+        <div className="w-full max-w-6xl mx-auto flex-1 relative overflow-hidden border-x border-b border-white/10 rounded-b-xl bg-white shadow-2xl">
+          <iframe
+            srcDoc={code}
+            className="w-full h-full border-none"
+            title="Preview"
+          />
         </div>
       </div>
     </div>
