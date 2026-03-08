@@ -22,7 +22,6 @@ export async function XBOLTBrain({ prompt }: { prompt: string }) {
     new HumanMessage(prompt),
   ];
 
-  // 1. Change streamMode from "updates" to "messages"
   const stream = await agent.stream(
     {
       messages,
@@ -32,12 +31,9 @@ export async function XBOLTBrain({ prompt }: { prompt: string }) {
 
   let response = "";
 
-  // 2. Destructure the stream output into [chunk, metadata]
   for await (const [chunk] of stream) {
-    // 3. Extract the text content safely
     const textChunk = chunk.content;
 
-    // 4. Only write to stdout if there is actual text (it might be empty on tool calls)
     if (textChunk && typeof textChunk === "string") {
       process.stdout.write(textChunk);
       response += textChunk;
