@@ -53,7 +53,7 @@ export default function GenPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#050505] text-white font-sans selection:bg-[#E2F609] selection:text-black overflow-x-hidden flex flex-col relative">
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-[#E2F609] selection:text-black overflow-x-hidden flex flex-col relative">
       {/* Background ambient glow - Centered and subtle */}
       <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#E2F609]/10 blur-[150px] rounded-full pointer-events-none" />
 
