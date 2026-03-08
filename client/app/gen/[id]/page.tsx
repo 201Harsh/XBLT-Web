@@ -12,7 +12,6 @@ import {
 import { useSearchParams, useRouter } from "next/navigation";
 import clsx from "clsx";
 
-// --- DUMMY GENERATED CODE ---
 const TARGET_CODE = `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,13 +42,11 @@ export default function WorkspacePage({
   const router = useRouter();
   const initialPrompt = searchParams.get("prompt") || "New Project";
 
-  // State
   const [code, setCode] = useState("");
   const [isGenerating, setIsGenerating] = useState(false);
   const [streamingIndex, setStreamingIndex] = useState(0);
   const [visibility, setVisibility] = useState<"public" | "private">("public");
 
-  // --- 1. AUTO-START GENERATION ON MOUNT ---
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsGenerating(true);
@@ -60,7 +57,6 @@ export default function WorkspacePage({
     return () => clearTimeout(timer);
   }, [initialPrompt]);
 
-  // --- 2. CODE STREAMING LOGIC ---
   useEffect(() => {
     if (isGenerating && streamingIndex < TARGET_CODE.length) {
       const timeout = setTimeout(() => {
@@ -76,7 +72,6 @@ export default function WorkspacePage({
 
   return (
     <div className="h-screen bg-[#050505] text-white font-sans selection:bg-[#E2F609] selection:text-black flex flex-col overflow-hidden">
-      {/* COMPACT HEADER */}
       <header className="h-14 border-b border-white/5 bg-[#050505] flex items-center justify-between px-4 shrink-0">
         <div className="flex items-center gap-4">
           <button
@@ -95,7 +90,6 @@ export default function WorkspacePage({
         </div>
 
         <div className="flex items-center gap-4">
-          {/* VISIBILITY TOGGLE */}
           <div className="flex bg-white/5 p-1 rounded-lg border border-white/10">
             <button
               onClick={() => setVisibility("public")}
@@ -123,7 +117,6 @@ export default function WorkspacePage({
 
           <div className="h-4 w-px bg-white/10" />
 
-          {/* STATUS */}
           {isGenerating ? (
             <div className="px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 text-yellow-500 text-xs rounded-full flex items-center gap-2">
               <Loader2 className="w-3 h-3 animate-spin" /> Building...
@@ -134,7 +127,6 @@ export default function WorkspacePage({
             </div>
           )}
 
-          {/* DEPLOY BUTTON */}
           <button
             onClick={() => console.log(`Deploying as ${visibility} website`)}
             className="bg-[#E2F609] hover:bg-[#c8d908] text-black text-xs font-bold px-4 py-1.5 rounded transition-colors"
@@ -144,9 +136,7 @@ export default function WorkspacePage({
         </div>
       </header>
 
-      {/* MAIN PREVIEW AREA */}
       <div className="flex-1 flex flex-col relative bg-[#0A0A0A] p-6 lg:p-12">
-        {/* Browser-like Toolbar for Preview */}
         <div className="w-full max-w-6xl mx-auto bg-black border border-white/10 rounded-t-xl h-12 flex items-center px-4 gap-4 shadow-2xl">
           <div className="flex gap-2">
             <div className="w-3 h-3 rounded-full bg-white/10" />
@@ -163,11 +153,9 @@ export default function WorkspacePage({
               {id}.xblt.app
             </div>
           </div>
-          {/* Spacer to balance the layout */}
           <div className="w-12"></div>
         </div>
 
-        {/* Viewport */}
         <div className="w-full max-w-6xl mx-auto flex-1 relative overflow-hidden border-x border-b border-white/10 rounded-b-xl bg-white shadow-2xl">
           <iframe
             srcDoc={code}
