@@ -47,7 +47,7 @@ export default function GenPage() {
         animate={{ opacity: 1 }}
         className="flex-1 flex flex-col items-center justify-center px-6 relative pt-24 pb-20"
       >
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-[#E2F609]/5 blur-[150px] rounded-full pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-150 h-100 bg-[#E2F609]/5 blur-[150px] rounded-full pointer-events-none" />
 
         <div className="text-center mb-10 relative z-10">
           <h1 className="text-5xl md:text-7xl font-bold tracking-tighter mb-4">
@@ -66,7 +66,7 @@ export default function GenPage() {
                 value={prompt}
                 onChange={(e) => setPrompt(e.target.value)}
                 placeholder="Let's create a landing page for your agency..."
-                className="w-full bg-transparent text-lg text-white placeholder-gray-500 p-4 min-h-[120px] resize-none focus:outline-none"
+                className="w-full bg-transparent text-lg text-white placeholder-gray-500 p-4 min-h-30 resize-none focus:outline-none"
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
                     e.preventDefault();
@@ -127,7 +127,7 @@ export default function GenPage() {
         </div>
 
         <div className="mt-24 w-full max-w-4xl relative z-10">
-          <div className="p-[1px] rounded-3xl bg-gradient-to-b from-[#E2F609]/20 to-transparent">
+          <div className="p-px rounded-3xl bg-linear-to-b from-[#E2F609]/20 to-transparent">
             <div className="bg-[#0A0A0A] p-8 md:p-12 rounded-[23px] flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-32 bg-[#E2F609]/5 blur-[100px] rounded-full pointer-events-none" />
 
