@@ -9,12 +9,9 @@ import {
   TerminalSquare,
   Cpu,
   Loader2,
-  LayoutDashboard,
-  Settings,
-  LogOut,
-  User,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import GenHeader from "../Components/gen/GenHeader";
 
 const LOADING_STEPS = [
   "XBLT is thinking...",
@@ -54,67 +51,9 @@ export default function GenPage() {
 
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-[#E2F609] selection:text-black overflow-x-hidden flex flex-col relative">
-      {/* Background ambient glow - Centered and subtle */}
       <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#E2F609]/10 blur-[150px] rounded-full pointer-events-none" />
 
-      {/* FLOATING DOCK HEADER */}
-      <div className="fixed top-6 left-0 right-0 z-50 flex justify-center px-4">
-        <header className="rounded-full border border-white/10 bg-[#0A0A0A]/80 backdrop-blur-xl flex items-center px-2 py-2 shadow-[0_8px_32px_rgba(0,0,0,0.8)]">
-          {/* Logo Section */}
-          <div className="flex items-center gap-2 pl-4 pr-6 border-r border-white/10 cursor-pointer group">
-            <Zap className="w-5 h-5 text-[#E2F609] fill-[#E2F609] group-hover:drop-shadow-[0_0_10px_rgba(226,246,9,0.8)] transition-all" />
-            <span className="font-bold tracking-tight text-sm text-white group-hover:text-[#E2F609] transition-colors">
-              XBLT
-            </span>
-          </div>
-
-          {/* Navigation Links */}
-          <nav className="flex items-center gap-2 px-4 border-r border-white/10">
-            <button className="flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/10 text-sm text-gray-300 hover:text-white transition-colors cursor-pointer">
-              <LayoutDashboard className="w-4 h-4" />
-              <span className="hidden sm:inline">Dashboard</span>
-            </button>
-            <button className="px-4 py-2 rounded-full hover:bg-white/10 text-sm text-gray-400 hover:text-white transition-colors cursor-pointer">
-              Pricing
-            </button>
-            <button className="px-4 py-2 rounded-full hover:bg-white/10 text-sm text-gray-400 hover:text-white transition-colors cursor-pointer">
-              Docs
-            </button>
-          </nav>
-
-          {/* Account Dropdown */}
-          <div className="pl-4 pr-2 relative group">
-            <div className="cursor-pointer w-9 h-9 rounded-full bg-gradient-to-br from-[#E2F609]/20 to-transparent border border-[#E2F609]/30 flex items-center justify-center text-[#E2F609] text-xs font-bold shadow-[0_0_10px_rgba(226,246,9,0.1)] group-hover:shadow-[0_0_15px_rgba(226,246,9,0.3)] group-hover:border-[#E2F609]/60 transition-all">
-              HP
-            </div>
-
-            {/* Hover Menu */}
-            <div className="absolute top-full right-0 mt-3 w-56 bg-[#0A0A0A] border border-white/10 rounded-2xl shadow-[0_10px_40px_rgba(0,0,0,0.8)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 translate-y-2 group-hover:translate-y-0 overflow-hidden">
-              <div className="px-4 py-3 border-b border-white/5 bg-white/[0.02]">
-                <p className="text-sm font-bold text-white flex items-center gap-2">
-                  Harsh Pandey
-                  <span className="px-1.5 py-0.5 rounded-md bg-[#E2F609]/20 text-[#E2F609] text-[10px] uppercase tracking-wider font-bold">
-                    Pro
-                  </span>
-                </p>
-                <p className="text-xs text-gray-500 mt-0.5">harsh@xblt.app</p>
-              </div>
-              <div className="p-2 flex flex-col gap-1">
-                <button className="flex items-center gap-2 w-full text-left px-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-xl cursor-pointer transition-colors">
-                  <User className="w-4 h-4" /> Profile
-                </button>
-                <button className="flex items-center gap-2 w-full text-left px-3 py-2 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-xl cursor-pointer transition-colors">
-                  <Settings className="w-4 h-4" /> Settings
-                </button>
-                <div className="h-px w-full bg-white/5 my-1" />
-                <button className="flex items-center gap-2 w-full text-left px-3 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-xl cursor-pointer transition-colors">
-                  <LogOut className="w-4 h-4" /> Sign Out
-                </button>
-              </div>
-            </div>
-          </div>
-        </header>
-      </div>
+      <GenHeader />
 
       <motion.div
         initial={{ opacity: 0, y: 10 }}
@@ -122,7 +61,6 @@ export default function GenPage() {
         transition={{ duration: 0.5, ease: "easeOut" }}
         className="flex-1 flex flex-col items-center justify-center px-4 sm:px-6 relative pt-36 pb-24 w-full"
       >
-        {/* HERO SECTION */}
         <div className="text-center mb-10 sm:mb-12 relative z-10 w-full max-w-4xl mx-auto">
           <h1 className="text-4xl sm:text-6xl md:text-7xl font-bold tracking-tighter mb-6 leading-tight text-white drop-shadow-xl">
             Build beautiful{" "}
@@ -136,7 +74,6 @@ export default function GenPage() {
           </p>
         </div>
 
-        {/* PROMPT AREA */}
         <div className="w-full max-w-3xl relative z-20 flex justify-center min-h-[200px]">
           <AnimatePresence mode="wait">
             {!isGenerating ? (
@@ -148,7 +85,6 @@ export default function GenPage() {
                 transition={{ duration: 0.2 }}
                 className="w-full relative group"
               >
-                {/* ELEGANT NEON GLOW WRAPPER */}
                 <div className="p-[1px] rounded-[24px] bg-gradient-to-b from-[#E2F609]/40 via-white/5 to-transparent shadow-[0_0_30px_rgba(226,246,9,0.05)] focus-within:shadow-[0_0_50px_rgba(226,246,9,0.2)] focus-within:from-[#E2F609]/70 transition-all duration-500">
                   <div className="rounded-[23px] bg-[#0A0A0A] overflow-hidden">
                     <form
@@ -168,7 +104,6 @@ export default function GenPage() {
                         }}
                       />
 
-                      {/* MINIMAL TOOLBAR (Removed Mic and Plus) */}
                       <div className="flex items-center justify-between px-4 pb-4 pt-2">
                         <div className="text-xs text-gray-500 font-mono flex items-center gap-2">
                           <span className="w-2 h-2 rounded-full bg-[#E2F609] animate-pulse shadow-[0_0_8px_rgba(226,246,9,0.8)]" />
@@ -179,7 +114,6 @@ export default function GenPage() {
                           <span className="hidden sm:inline">to generate</span>
                         </div>
 
-                        {/* ONLY SEND BUTTON */}
                         <button
                           type="submit"
                           disabled={!prompt.trim()}
@@ -192,7 +126,6 @@ export default function GenPage() {
                   </div>
                 </div>
 
-                {/* CLEAN SUGGESTION CHIPS */}
                 <div className="flex flex-wrap justify-center gap-3 mt-8">
                   {[
                     "E-commerce Storefront",
@@ -237,7 +170,6 @@ export default function GenPage() {
                   </AnimatePresence>
                 </div>
 
-                {/* Glowing progress bar */}
                 <div className="w-64 h-1 bg-white/10 rounded-full mt-6 overflow-hidden">
                   <motion.div
                     className="h-full bg-[#E2F609] shadow-[0_0_10px_rgba(226,246,9,1)]"
@@ -253,7 +185,6 @@ export default function GenPage() {
           </AnimatePresence>
         </div>
 
-        {/* DESKTOP APP PROMO SECTION */}
         <div className="mt-20 sm:mt-28 w-full max-w-5xl mx-auto">
           <div className="relative p-[1px] rounded-3xl bg-gradient-to-br from-[#E2F609]/30 via-transparent to-transparent">
             <div className="bg-[#0A0A0A] rounded-[23px] p-8 sm:p-10 md:p-14 flex flex-col lg:flex-row items-center justify-between gap-10 relative overflow-hidden">
