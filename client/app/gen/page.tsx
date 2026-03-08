@@ -51,7 +51,7 @@ export default function GenPage() {
 
   return (
     <div className="min-h-screen bg-black text-white font-sans selection:bg-[#E2F609] selection:text-black overflow-x-hidden flex flex-col relative">
-      <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[#E2F609]/10 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute top-[20%] left-1/2 -translate-x-1/2 w-150 h-100 bg-[#E2F609]/10 blur-[150px] rounded-full pointer-events-none" />
 
       <GenHeader />
 
@@ -74,7 +74,7 @@ export default function GenPage() {
           </p>
         </div>
 
-        <div className="w-full max-w-3xl relative z-20 flex justify-center min-h-[200px]">
+        <div className="w-full max-w-3xl relative z-20 flex justify-center min-h-50">
           <AnimatePresence mode="wait">
             {!isGenerating ? (
               <motion.div
@@ -85,7 +85,7 @@ export default function GenPage() {
                 transition={{ duration: 0.2 }}
                 className="w-full relative group"
               >
-                <div className="p-[1px] rounded-[24px] bg-gradient-to-b from-[#E2F609]/40 via-white/5 to-transparent shadow-[0_0_30px_rgba(226,246,9,0.05)] focus-within:shadow-[0_0_50px_rgba(226,246,9,0.2)] focus-within:from-[#E2F609]/70 transition-all duration-500">
+                <div className="p-px rounded-3xl bg-linear-to-b from-[#E2F609]/40 via-white/5 to-transparent shadow-[0_0_30px_rgba(226,246,9,0.05)] focus-within:shadow-[0_0_50px_rgba(226,246,9,0.2)] focus-within:from-[#E2F609]/70 transition-all duration-500">
                   <div className="rounded-[23px] bg-[#0A0A0A] overflow-hidden">
                     <form
                       onSubmit={handleGenerate}
@@ -95,7 +95,7 @@ export default function GenPage() {
                         value={prompt}
                         onChange={(e) => setPrompt(e.target.value)}
                         placeholder="Let's create a minimal portfolio for a designer..."
-                        className="w-full bg-transparent text-base sm:text-lg text-white placeholder-gray-600 p-6 min-h-[140px] resize-none focus:outline-none"
+                        className="w-full bg-transparent text-base sm:text-lg text-white placeholder-gray-600 p-6 min-h-35 resize-none focus:outline-none"
                         onKeyDown={(e) => {
                           if (e.key === "Enter" && !e.shiftKey) {
                             e.preventDefault();
@@ -186,9 +186,9 @@ export default function GenPage() {
         </div>
 
         <div className="mt-20 sm:mt-28 w-full max-w-5xl mx-auto">
-          <div className="relative p-[1px] rounded-3xl bg-gradient-to-br from-[#E2F609]/30 via-transparent to-transparent">
+          <div className="relative p-px rounded-3xl bg-linear-to-br from-[#E2F609]/30 via-transparent to-transparent">
             <div className="bg-[#0A0A0A] rounded-[23px] p-8 sm:p-10 md:p-14 flex flex-col lg:flex-row items-center justify-between gap-10 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-[#E2F609]/5 blur-[120px] rounded-full pointer-events-none" />
+              <div className="absolute top-0 right-0 w-100 h-100 bg-[#E2F609]/5 blur-[120px] rounded-full pointer-events-none" />
 
               <div className="flex-1 text-center lg:text-left relative z-10">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-[#E2F609]/30 bg-[#E2F609]/10 text-[#E2F609] text-xs font-mono font-bold mb-6 shadow-[0_0_15px_rgba(226,246,9,0.1)]">
@@ -217,7 +217,7 @@ export default function GenPage() {
                 </div>
               </div>
 
-              <div className="flex flex-col gap-3 w-full lg:w-auto min-w-[280px] relative z-10">
+              <div className="flex flex-col gap-3 w-full lg:w-auto min-w-70 relative z-10">
                 <div className="cursor-pointer flex items-center gap-4 bg-[#111] border border-white/5 px-5 py-4 rounded-2xl hover:border-[#E2F609]/30 transition-colors group">
                   <div className="p-2.5 bg-black rounded-xl border border-white/5 group-hover:bg-[#E2F609]/10 transition-colors">
                     <Cpu className="w-5 h-5 text-[#E2F609]" />
