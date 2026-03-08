@@ -1,35 +1,48 @@
-  import { ChatGroq } from "@langchain/groq";
-  import { SystemMessage, HumanMessage } from "@langchain/core/messages";
+import { createAgent } from "langchain";
+import { ChatGroq } from "@langchain/groq";
+import { SystemMessage, HumanMessage } from "@langchain/core/messages";
 
-  // Initialize the LangChain Groq Model
-  const llm = new ChatGroq({
-    apiKey: process.env.XBLT_AI_BRAIN_API_KEY as string,
-    model: "llama-3.1-8b-instant",
-    temperature: 0.5,
-    topP: 1,
-    // Note: stop and streaming are handled natively by LangChain's .stream() method now
-  });
+const model = new ChatGroq({
+  apiKey: process.env.XBLT_AI_BRAIN_API_KEY as string,
+  model: "llama-3.1-8b-instant",
+  temperature: 0.5,
+  topP: 1,
+});
 
-  export async function XBOLTBrain({ prompt }: { prompt: string }) {
-    // 1. Format your messages using LangChain's message classes
-    const messages = [
-      new SystemMessage("You are a helpful assistant named XBOLT your are a Agentic AI Boss."),
-      new HumanMessage(prompt),
-    ];
+const agent = createAgent({
+  model,
+  tools: [],
+});
 
-    // 2. Call the .stream() method directly on the LLM
-    const stream = await llm.stream(messages);
+export async function XBOLTBrain({ prompt }: { prompt: string }) {
+  const messages = [
+    new SystemMessage(
+      "You are a helpful assistant named XBOLT your are a Agentic AI Boss.",
+    ),
+    new HumanMessage(prompt),
+  ];
 
-    let response = "";
+  // 1. Change streamMode from "updates" to "messages"
+  const stream = await agent.stream(
+    {
+      messages,
+    },
+    { streamMode: "messages" },
+  );
 
-    // 3. Iterate through the chunks as they arrive
-    for await (const chunk of stream) {
-      // LangChain simplifies the chunk payload to just chunk.content
-      const textChunk = chunk.content as string;
+  let response = "";
 
+  // 2. Destructure the stream output into [chunk, metadata]
+  for await (const [chunk] of stream) {
+    // 3. Extract the text content safely
+    const textChunk = chunk.content;
+
+    // 4. Only write to stdout if there is actual text (it might be empty on tool calls)
+    if (textChunk && typeof textChunk === "string") {
       process.stdout.write(textChunk);
       response += textChunk;
     }
-
-    return response;
   }
+
+  return response;
+}
