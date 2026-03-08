@@ -26,8 +26,8 @@ const Header = () => {
 
   return (
     <>
-      <nav className="fixed top-0 w-full z-50 backdrop-blur-md border-b border-white/10 bg-black/60">
-        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+      <nav className="fixed top-0 w-full z-50 mt-4">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between bg-black/5 rounded-full backdrop-blur-lg p-4">
           <Link
             href="/"
             className="flex items-center gap-2 group cursor-pointer relative z-50"
@@ -41,7 +41,7 @@ const Header = () => {
             </span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-400">
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-gray-200">
             {navLinks.map((link) => (
               <Link
                 key={link.name}
