@@ -1,6 +1,7 @@
 import { createAgent } from "langchain";
 import { ChatGroq } from "@langchain/groq";
 import { SystemMessage, HumanMessage } from "@langchain/core/messages";
+import { fetchPexelsMedia } from "../tools/pexels.js";
 
 const model = new ChatGroq({
   apiKey: process.env.XBLT_AI_BRAIN_API_KEY as string,
@@ -11,7 +12,7 @@ const model = new ChatGroq({
 
 const agent = createAgent({
   model,
-  tools: [],
+  tools: [fetchPexelsMedia],
   systemPrompt: new SystemMessage("You are a helpful assistant named XBOLT."),
 });
 
