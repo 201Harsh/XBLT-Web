@@ -27,7 +27,6 @@ export const fetchPexelsMedia = tool(
 
       let fetchedUrls: string[] = [];
 
-      // Extract the raw URLs instead of downloading
       for (let i = 0; i < items.length; i++) {
         const item = items[i];
         let mediaUrl = isVideo
@@ -40,7 +39,6 @@ export const fetchPexelsMedia = tool(
         fetchedUrls.push(mediaUrl);
       }
 
-      // Return a formatted string of URLs so the LLM can easily read and pass them to Gemini
       return `Successfully fetched ${fetchedUrls.length} ${mediaType}(s). Here are the raw URLs to use in the HTML:\n${fetchedUrls.join("\n")}`;
     } catch (error: any) {
       console.log(error);

@@ -6,13 +6,11 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY as string });
 
 export const buildWebsite = tool(
   async ({ designRequest, assetUrls }) => {
-    // 1. Format the URLs distinctly
     const formattedUrls =
       assetUrls && assetUrls.length > 0
         ? assetUrls.map((url, i) => `[MEDIA ${i + 1}]: ${url}`).join("\n")
         : "No external assets provided.";
 
-    // 2. Keep the System Prompt focused purely on coding rules
     const systemPrompt = `You are XBLT, an elite front-end AI engineer from the year 2026.
 
 STRICT RULES:
@@ -21,7 +19,6 @@ STRICT RULES:
 3. Inject Tailwind CSS and GSAP via CDN.
 4. ZERO PLACEHOLDERS: You are STRICTLY FORBIDDEN from using "example.com", "unsplash.com", or fake URLs. You MUST map the provided URLs exactly as they are given to you into the src="" attributes.`;
 
-    // 3. THE FIX: Inject the assets directly into the IMMEDIATE task payload
     const finalPrompt = `
 USER DESIGN REQUEST:
 ${designRequest}
@@ -36,10 +33,10 @@ ${formattedUrls}
 
     const responseStream = await ai.models.generateContentStream({
       model: "gemini-3-flash-preview",
-      contents: finalPrompt, // Pass the combined prompt here
+      contents: finalPrompt,
       config: {
         systemInstruction: systemPrompt,
-        temperature: 0.1, // Keep it at 0.1 to stop hallucination
+        temperature: 0.1,
       },
     });
 
