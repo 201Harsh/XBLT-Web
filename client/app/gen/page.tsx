@@ -15,10 +15,9 @@ import {
   HardDrive,
   Command,
   Download,
-  FolderOpen,
 } from "lucide-react";
-import GenHeader from "../Components/gen/GenHeader";
-import Footer from "../Components/Footer"; // Make sure path is correct!
+import GenHeader from "../Components/gen/GenHeader"; // Adjust import path if needed
+import Footer from "../Components/Footer"; // Adjust import path if needed
 import { Draggable } from "gsap/all";
 
 if (typeof window !== "undefined") {
@@ -34,8 +33,8 @@ const MagneticButton = () => {
     if (!buttonRef.current) return;
     const { left, top, width, height } =
       buttonRef.current.getBoundingClientRect();
-    const x = (e.clientX - left - width / 2) * 0.2;
-    const y = (e.clientY - top - height / 2) * 0.2;
+    const x = (e.clientX - left - width / 2) * 0.8;
+    const y = (e.clientY - top - height / 2) * 0.8;
     setPosition({ x, y });
   };
 
@@ -55,13 +54,13 @@ const MagneticButton = () => {
       <span className="relative z-10 flex items-center gap-3">
         <Command className="w-6 h-6" />
         <div className="flex flex-col items-start leading-tight">
-          <span>Download Engine</span>
+          <span>Download XBLT Studio</span>
           <span className="text-[11px] font-mono opacity-80 uppercase tracking-wider">
             Mac | Win | Linux (Parrot OS)
           </span>
         </div>
       </span>
-      <div className="relative z-10 w-10 h-10 rounded-full bg-black/10 flex items-center justify-center group-hover:bg-black group-hover:text-[#E2F609] transition-all duration-300">
+      <div className="relative ml-2 z-10 w-10 h-10 rounded-full bg-black/10 flex items-center justify-center group-hover:bg-black group-hover:text-[#E2F609] transition-all duration-300">
         <Download className="w-5 h-5" />
       </div>
       <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent group-hover:animate-[shimmer_1.5s_infinite]" />
@@ -69,34 +68,45 @@ const MagneticButton = () => {
   );
 };
 
-// --- BACKGROUND PARTICLES ---
+// --- BACKGROUND PARTICLES (HYDRATION BUG FIXED) ---
 const BackgroundParticles = () => {
-  const particles = Array.from({ length: 30 }).map((_, i) => ({
-    id: i,
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    duration: Math.random() * 10 + 10,
-    delay: Math.random() * 5,
-    char: Math.random() > 0.5 ? "1" : "0",
-  }));
+  const [particles, setParticles] = useState<any[]>([]);
+
+  // Calculate random values ONLY on the client to prevent SSR Hydration mismatch
+  useEffect(() => {
+    const generatedParticles = Array.from({ length: 30 }).map((_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      duration: Math.random() * 10 + 15,
+      delay: Math.random() * 5,
+      size: Math.random() * 3 + 1,
+    }));
+    setParticles(generatedParticles);
+  }, []);
+
+  if (particles.length === 0) return null;
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none z-10">
       {particles.map((p) => (
         <motion.div
           key={p.id}
-          className="absolute text-[#E2F609]/20 font-mono text-xs select-none"
-          style={{ left: `${p.x}%`, top: `${p.y}%` }}
-          animate={{ y: [0, -200], opacity: [0, 1, 0] }}
+          className="absolute bg-[#E2F609]/20 rounded-full"
+          style={{
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            width: p.size,
+            height: p.size,
+          }}
+          animate={{ y: [0, -300], opacity: [0, 1, 0] }}
           transition={{
             duration: p.duration,
             repeat: Infinity,
             delay: p.delay,
             ease: "linear",
           }}
-        >
-          {p.char}
-        </motion.div>
+        />
       ))}
     </div>
   );
@@ -106,10 +116,21 @@ export default function XBLTDesktopPage() {
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLDivElement>(null);
   const [activeFeature, setActiveFeature] = useState(0);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+
+  // Mouse Parallax tracking
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth) * 2 - 1;
+      const y = (e.clientY / window.innerHeight) * 2 - 1;
+      setMousePos({ x, y });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Pin the Visualizer
       ScrollTrigger.create({
         trigger: triggerRef.current,
         start: "top top",
@@ -118,7 +139,6 @@ export default function XBLTDesktopPage() {
         scrub: 1,
       });
 
-      // Animate the text steps
       const steps = gsap.utils.toArray(".feature-step");
       steps.forEach((step: any, index) => {
         gsap.fromTo(
@@ -147,13 +167,17 @@ export default function XBLTDesktopPage() {
   return (
     <div
       ref={containerRef}
-      className="min-h-screen bg-black text-white font-sans overflow-x-hidden selection:bg-[#E2F609] selection:text-black"
+      className="min-h-screen bg-[#050505] text-white font-sans overflow-x-hidden selection:bg-[#E2F609] selection:text-black"
     >
       <GenHeader />
 
       {/* --- HERO SECTION --- */}
       <section className="relative h-screen flex flex-col justify-center items-center overflow-hidden border-b border-white/10 bg-black perspective-1000">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[#E2F609]/10 blur-[120px] rounded-full pointer-events-none mix-blend-screen" />
+        <motion.div
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[600px] bg-[#E2F609]/10 blur-[120px] rounded-full pointer-events-none mix-blend-screen"
+          animate={{ x: mousePos.x * 50, y: mousePos.y * 50 }}
+          transition={{ type: "tween", ease: "backOut", duration: 1 }}
+        />
         <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-black to-transparent z-10"></div>
 
         <BackgroundParticles />
@@ -163,6 +187,7 @@ export default function XBLTDesktopPage() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, ease: "circOut" }}
+            style={{ rotateX: mousePos.y * -5, rotateY: mousePos.x * 5 }}
           >
             <motion.div
               initial={{ y: -20, opacity: 0 }}
@@ -174,10 +199,10 @@ export default function XBLTDesktopPage() {
               <span className="tracking-widest">SYSTEM ARCHITECTURE V2.0</span>
             </motion.div>
 
-            <h1 className="text-5xl md:text-8xl lg:text-9xl font-extrabold tracking-tighter mb-8 leading-[0.9]">
+            <h1 className="text-5xl md:text-8xl lg:text-[10rem] font-extrabold tracking-tighter mb-6 leading-[0.85]">
               ESCAPE THE <br />
               <span className="relative inline-block">
-                <span className="absolute -inset-1 bg-[#E2F609]/20 blur-lg opacity-50 animate-pulse"></span>
+                <span className="absolute -inset-1 bg-[#E2F609]/20 blur-xl opacity-50 animate-pulse"></span>
                 <span className="relative text-transparent bg-clip-text bg-gradient-to-b from-[#E2F609] to-[#8a9600] drop-shadow-2xl italic pr-2">
                   SANDBOX.
                 </span>
@@ -188,15 +213,14 @@ export default function XBLTDesktopPage() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed mb-12"
+              className="text-xl md:text-2xl text-gray-400 max-w-3xl mx-auto leading-relaxed mb-12 font-medium"
             >
-              Web builders are toys. XBLT is an Operating System.{" "}
-              <br className="hidden md:block" />
-              Unlock native file-system access,{" "}
+              Web builders are toys. XBLT is a{" "}
               <span className="text-white font-bold border-b border-[#E2F609]">
-                local LLM inference
+                Generative OS
               </span>
-              , and zero-latency generation.
+              . Unlock native file-system access, local LLM inference, and
+              zero-latency generation.
             </motion.p>
 
             <div className="flex justify-center">
@@ -238,33 +262,33 @@ export default function XBLTDesktopPage() {
               title="2. Direct Injection"
               subtitle="FILE SYSTEM WRITE"
               icon={<HardDrive />}
-              desc="Bypassing the virtual DOM, XBLT injects code directly into your local storage. Watch package.json update natively."
+              desc="Bypassing the virtual DOM, XBLT injects code directly into your local storage. Watch package.json and routing update natively on your machine."
             />
             <FeatureStep
               title="3. The Live Matrix"
               subtitle="ZERO LATENCY"
               icon={<Code2 />}
-              desc="Modifications happen instantly. Gemini 3 Flash streams production-ready HTML, Tailwind, and GSAP math directly to your IDE."
+              desc="Modifications happen instantly. Gemini 3 Flash streams production-ready HTML, Tailwind, and complex GSAP math directly into your IDE buffer."
             />
             <FeatureStep
               title="4. Local Privacy"
               subtitle="OLLAMA INTEGRATION"
               icon={<Lock />}
-              desc="Privacy is absolute. XBLT Desktop natively integrates with Ollama, allowing you to run Mistral or LLaMA 3 locally. Zero telemetry."
+              desc="Privacy is absolute. XBLT Desktop natively integrates with Ollama, allowing you to run Mistral or LLaMA 3 completely locally. Zero telemetry."
             />
             <FeatureStep
               title="5. Global Edge Sync"
               subtitle="DEPLOYMENT"
               icon={<Globe />}
-              desc="Once local tests pass, the engine shards your build and pushes it to the Edge Network across 32 global regions."
+              desc="Once your architecture passes local checks, the engine shards your build and pushes it directly to the Vercel Edge Network."
             />
           </div>
 
           {/* RIGHT: PINNED DYNAMIC VISUALIZER */}
           <div className="hidden md:flex md:w-1/2 h-screen pinned-visual sticky top-0 items-center justify-center p-6 lg:p-12">
-            <div className="relative w-full h-[500px] bg-black border border-white/10 rounded-[30px] overflow-hidden shadow-2xl flex flex-col">
+            <div className="relative w-full h-[500px] bg-[#0A0A0A] border border-white/10 rounded-[30px] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col">
               {/* Window Header */}
-              <div className="h-12 border-b border-white/10 flex items-center justify-between px-6 bg-white/5">
+              <div className="h-12 border-b border-white/10 flex items-center justify-between px-6 bg-white/5 backdrop-blur-md">
                 <div className="flex gap-2">
                   <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
                   <div className="w-3 h-3 rounded-full bg-yellow-500/80"></div>
@@ -287,7 +311,6 @@ export default function XBLTDesktopPage() {
               {/* Window Body */}
               <div className="flex-1 relative overflow-hidden p-8 flex items-center justify-center">
                 <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.3)_51%)] bg-[size:100%_4px] pointer-events-none z-20 opacity-20"></div>
-                <div className="absolute top-0 left-0 w-full h-1 bg-[#E2F609]/20 shadow-[0_0_20px_rgba(226,246,9,0.5)] z-20 animate-[scan_3s_ease-in-out_infinite]"></div>
 
                 <AnimatePresence mode="wait">
                   {activeFeature === 0 && <VisualNeural key="0" />}
@@ -297,28 +320,20 @@ export default function XBLTDesktopPage() {
                   {activeFeature === 4 && <VisualGlobe key="4" />}
                 </AnimatePresence>
               </div>
-
-              {/* Window Footer */}
-              <div className="h-10 border-t border-white/10 flex items-center justify-between px-6 bg-white/5 text-[10px] font-mono text-gray-500">
-                <span>CPU: 12%</span>
-                <span>RAM: 4.2GB</span>
-                <span>LATENCY: 0ms</span>
-                <span className="text-[#E2F609]">LOCAL</span>
-              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* --- CTA FOOTER --- */}
-      <section className="py-40 bg-[#E2F609] text-black text-center relative overflow-hidden rounded-t-[60px] mt-20 mx-4 md:mx-10 mb-10">
+      <section className="py-32 bg-[#e2f60977] text-black text-center relative overflow-hidden rounded-t-[60px] mt-20 mx-4 md:mx-10 mb-10">
         <div className="absolute inset-0 bg-[linear-gradient(rgba(0,0,0,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(0,0,0,0.05)_1px,transparent_1px)] bg-[size:2rem_2rem] pointer-events-none" />
         <div className="relative z-10 flex flex-col items-center px-4">
-          <FolderOpen className="w-16 h-16 mb-6 opacity-80" />
+          <Terminal className="w-16 h-16 mb-6 opacity-80" />
           <h2 className="text-5xl md:text-8xl font-extrabold tracking-tighter mb-8">
-            READY TO MOUNT <br /> YOUR DIRECTORY?
+            COMPILE <br /> YOUR FUTURE.
           </h2>
-          <div className="bg-black text-white p-2 rounded-3xl">
+          <div className="bg-black text-white p-2 rounded-3xl shadow-2xl">
             <MagneticButton />
           </div>
         </div>
@@ -331,12 +346,6 @@ export default function XBLTDesktopPage() {
         dangerouslySetInnerHTML={{
           __html: `
         @keyframes shimmer { 100% { transform: translateX(100%); } }
-        @keyframes scan {
-          0% { top: 0; opacity: 0; }
-          10% { opacity: 1; }
-          90% { opacity: 1; }
-          100% { top: 100%; opacity: 0; }
-        }
       `,
         }}
       />
@@ -351,14 +360,14 @@ const FeatureStep = ({ title, subtitle, icon, desc }: any) => (
     <div className="inline-flex items-center gap-2 text-[#E2F609] font-mono text-xs mb-4 uppercase tracking-widest font-bold">
       {icon} {subtitle}
     </div>
-    <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight">
+    <h2 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight text-white">
       {title}
     </h2>
     <p className="text-gray-400 text-lg leading-relaxed max-w-md">{desc}</p>
   </div>
 );
 
-// --- DYNAMIC VISUALIZERS ---
+// --- DYNAMIC VISUALIZERS FOR XBLT ---
 
 const VisualNeural = () => (
   <motion.div
