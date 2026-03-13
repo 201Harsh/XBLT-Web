@@ -1,13 +1,6 @@
 "use client";
 
-import {
-  Zap,
-  LayoutDashboard,
-  Settings,
-  LogOut,
-  User,
-  DownloadCloud,
-} from "lucide-react";
+import { Zap, Settings, LogOut, User, DownloadCloud } from "lucide-react";
 import Link from "next/link";
 
 const GenHeader = () => {
@@ -38,7 +31,7 @@ const GenHeader = () => {
         </nav>
 
         <div className="pl-4 pr-2 relative group">
-          <div className="cursor-pointer w-9 h-9 rounded-full bg-gradient-to-br from-[#E2F609]/20 to-transparent border border-[#E2F609]/30 flex items-center justify-center text-[#E2F609] text-xs font-bold shadow-[0_0_10px_rgba(226,246,9,0.1)] group-hover:shadow-[0_0_15px_rgba(226,246,9,0.3)] group-hover:border-[#E2F609]/60 transition-all">
+          <div className="cursor-pointer w-9 h-9 rounded-full bg-linear-to-br from-[#E2F609]/20 to-transparent border border-[#E2F609]/30 flex items-center justify-center text-[#E2F609] text-xs font-bold shadow-[0_0_10px_rgba(226,246,9,0.1)] group-hover:shadow-[0_0_15px_rgba(226,246,9,0.3)] group-hover:border-[#E2F609]/60 transition-all">
             HP
           </div>
 
