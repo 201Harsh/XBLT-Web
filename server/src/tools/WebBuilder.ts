@@ -50,7 +50,7 @@ ${formattedUrls}
       }
     }
 
-    return `\nWebsite successfully generated.`;
+    return fullSourceCode;
   },
   {
     name: "build_website",
