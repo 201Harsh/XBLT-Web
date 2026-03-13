@@ -4,10 +4,16 @@ import { ChatGroq } from "@langchain/groq";
 import { fetchPexelsMedia } from "../tools/pexels.js";
 import { buildWebsite } from "../tools/WebBuilder.js";
 
+interface BrainProps {
+  prompt: string;
+  sendEvent: (eventName: string, payload: any) => void;
+}
+
 const GraphState = Annotation.Root({
   prompt: Annotation<string>(),
   assetUrls: Annotation<string[]>(),
   finalOutput: Annotation<string>(),
+  sendEvent: Annotation<any>(),
 });
 
 const model = new ChatGroq({
@@ -18,6 +24,10 @@ const model = new ChatGroq({
 
 async function fetchAssetsNode(state: typeof GraphState.State) {
   console.log("\n[XBLT] PHASE 1: Analyzing request & fetching media...");
+
+  state.sendEvent("log", {
+    message: "Analyzing your architecture requirements...",
+  });
 
   const SearchSchema = z.object({
     query: z.string().describe("Search query for Pexels based on user prompt"),
@@ -35,9 +45,18 @@ async function fetchAssetsNode(state: typeof GraphState.State) {
       { role: "user", content: state.prompt },
     ]);
 
+    state.sendEvent("log", {
+      message: `Fetching high-res ${searchParams.mediaType}s for the layout...`,
+    });
+
     const toolResult = await fetchPexelsMedia.invoke(searchParams);
 
     const urls = toolResult.match(/https:\/\/[^\s]+/g) || [];
+
+    state.sendEvent("log", {
+      message: `Successfully acquired ${urls.length} media assets.`,
+    });
+
     console.log(`[XBLT] Found ${urls.length} assets.`);
 
     return { assetUrls: urls };
@@ -49,6 +68,8 @@ async function fetchAssetsNode(state: typeof GraphState.State) {
 
 async function buildWebsiteNode(state: typeof GraphState.State) {
   console.log("\n[XBLT] PHASE 2: Injecting assets and compiling code...\n");
+
+  state.sendEvent("log", { message: "Compiling native Web Architecture..." });
 
   const result = await buildWebsite.invoke({
     designRequest: state.prompt,
@@ -66,11 +87,12 @@ const workflow = new StateGraph(GraphState)
   .addEdge("buildWebsite", END)
   .compile();
 
-export async function XBOLTBrain({ prompt }: { prompt: string }) {
+export async function XBOLTBrain({ prompt, sendEvent }: BrainProps) {
   const result = await workflow.invoke({
     prompt: prompt,
     assetUrls: [],
     finalOutput: "",
+    sendEvent: sendEvent,
   });
 
   return result.finalOutput;

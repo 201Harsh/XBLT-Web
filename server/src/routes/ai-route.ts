@@ -1,5 +1,8 @@
 import { Router } from "express";
-import { XBLTBrainController } from "../controllers/ai-controller.js";
+import {
+  getProjectBySessionId,
+  XBLTBrainController,
+} from "../controllers/ai-controller.js";
 import { body } from "express-validator";
 
 const aiRouter = <Router>Router();
@@ -15,5 +18,7 @@ aiRouter.post(
   ],
   XBLTBrainController,
 );
+
+aiRouter.get("/project/:sessionId", getProjectBySessionId);
 
 export default aiRouter;
