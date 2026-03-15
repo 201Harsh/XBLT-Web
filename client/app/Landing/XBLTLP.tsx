@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useScroll,
@@ -11,9 +11,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   Zap,
-  Download,
   Sparkles,
-  Command,
   Terminal,
   Cpu,
   Globe,
@@ -32,48 +30,12 @@ import {
 import Footer from "../Components/Footer";
 import { Draggable } from "gsap/all";
 import Header from "../Components/Header";
+import MagneticButton from "../utils/MangneticButton";
+import Link from "next/link";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, Draggable);
 }
-
-const MagneticButton = () => {
-  const buttonRef = useRef<HTMLButtonElement>(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!buttonRef.current) return;
-    const { left, top, width, height } =
-      buttonRef.current.getBoundingClientRect();
-    const x = (e.clientX - left - width / 2) * 0.2;
-    const y = (e.clientY - top - height / 2) * 0.2;
-    setPosition({ x, y });
-  };
-
-  const handleMouseLeave = () => setPosition({ x: 0, y: 0 });
-
-  return (
-    <motion.button
-      ref={buttonRef}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      animate={{ x: position.x, y: position.y }}
-      transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
-      whileHover={{ scale: 1.05 }}
-      whileTap={{ scale: 0.95 }}
-      className="group relative flex items-center justify-between px-8 py-5 bg-[#E2F609] rounded-full text-black font-bold text-lg overflow-hidden shadow-[0_0_40px_rgba(226,246,9,0.3)] hover:shadow-[0_0_60px_rgba(226,246,9,0.6)] transition-shadow cursor-pointer z-50 min-w-70"
-    >
-      <span className="relative z-10 flex items-center gap-3">
-        <Command className="w-6 h-6" />
-        <span className="tracking-tight">Download XBLT OS</span>
-      </span>
-      <div className="relative z-10 w-10 h-10 rounded-full bg-black/10 flex items-center justify-center group-hover:bg-black group-hover:text-[#E2F609] transition-all duration-300">
-        <Download className="w-5 h-5" />
-      </div>
-      <div className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/40 to-transparent group-hover:animate-[shimmer_1.5s_infinite]" />
-    </motion.button>
-  );
-};
 
 const BackgroundParticles = () => {
   const [particles, setParticles] = useState<any[]>([]);
@@ -278,7 +240,9 @@ export default function XBLTLP() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.6 }}
           >
-            <MagneticButton />
+            <Link href="/signin">
+              <MagneticButton />
+            </Link>
           </motion.div>
         </motion.div>
 

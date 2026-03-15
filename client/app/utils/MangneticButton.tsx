@@ -33,7 +33,7 @@ const MagneticButton = () => {
         <div className="flex flex-col items-start leading-tight">
           <span>Download XBLT Studio</span>
           <span className="text-[11px] font-mono opacity-80 uppercase tracking-wider">
-            Mac | Win | Linux (Parrot OS)
+            Win | Mac | Linux 
           </span>
         </div>
       </span>
