@@ -37,7 +37,6 @@ if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger, Draggable);
 }
 
-// --- MAGNETIC BUTTON ---
 const MagneticButton = () => {
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [position, setPosition] = useState({ x: 0, y: 0 });
@@ -76,7 +75,6 @@ const MagneticButton = () => {
   );
 };
 
-// --- HYDRATION-SAFE PARTICLES ---
 const BackgroundParticles = () => {
   const [particles, setParticles] = useState<any[]>([]);
 
@@ -215,7 +213,6 @@ export default function XBLTLP() {
     >
       <Header />
 
-      {/* --- HERO SECTION --- */}
       <section
         ref={heroRef}
         className="relative h-screen flex flex-col items-center justify-center text-center overflow-hidden border-b border-white/5 perspective-1000"
@@ -284,7 +281,7 @@ export default function XBLTLP() {
             <MagneticButton />
           </motion.div>
         </motion.div>
-        {/* DRAGGABLE TERMINAL */}
+
         <div className="draggable-code absolute z-30 top-[25%] right-[10%] cursor-grab active:cursor-grabbing hidden xl:block">
           <div className="w-80 bg-[#0A0A0A]/90 backdrop-blur-xl border border-white/10 rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden transform rotate-6 hover:rotate-0 transition-transform duration-300 hover:border-[#E2F609]/50">
             <div className="h-8 bg-white/5 border-b border-white/10 flex items-center justify-between px-3">
@@ -320,7 +317,6 @@ export default function XBLTLP() {
         </div>
       </section>
 
-      {/* --- INFINITE MARQUEE --- */}
       <div className="w-full border-y border-white/5 bg-[#0A0A0A] py-8 overflow-hidden relative flex flex-col items-center justify-center">
         <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#050505] to-transparent z-10" />
         <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#050505] to-transparent z-10" />
@@ -357,13 +353,11 @@ export default function XBLTLP() {
         </motion.div>
       </div>
 
-      {/* --- PINNED SCROLL SECTION (10 CHAPTERS) --- */}
       <section
         ref={triggerRef}
         className="relative w-full bg-[#050505] border-b border-white/5"
       >
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row">
-          {/* LEFT: SCROLLING TEXT */}
           <div className="md:w-1/2 py-32 px-6 pb-[50vh]">
             <StoryChapter
               num="01"
@@ -427,7 +421,6 @@ export default function XBLTLP() {
             />
           </div>
 
-          {/* RIGHT: PINNED DYNAMIC VISUALIZER */}
           <div className="hidden md:flex md:w-1/2 h-screen pinned-visual sticky top-0 items-center justify-center p-6 lg:p-12">
             <div className="relative w-full h-[550px] bg-[#0A0A0A] border border-white/10 rounded-[30px] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col">
               {/* Window Header */}
@@ -443,7 +436,6 @@ export default function XBLTLP() {
                 </div>
               </div>
 
-              {/* Window Body (The Highly Animated Center) */}
               <div className="flex-1 relative overflow-hidden p-8 flex items-center justify-center">
                 <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.3)_51%)] bg-[size:100%_4px] pointer-events-none z-20 opacity-20"></div>
 
@@ -452,7 +444,6 @@ export default function XBLTLP() {
                 </AnimatePresence>
               </div>
 
-              {/* Progress Bar & Footer */}
               <div className="relative h-12 border-t border-white/10 bg-white/5 flex items-center justify-between px-6">
                 <div
                   className="absolute top-0 left-0 h-[2px] bg-[#E2F609] shadow-[0_0_10px_#E2F609]"
@@ -482,7 +473,6 @@ export default function XBLTLP() {
 
       <Footer />
 
-      {/* Scroll Progress Bar */}
       <motion.div
         className="fixed bottom-0 left-0 right-0 h-1.5 bg-[#E2F609] origin-left z-50 shadow-[0_0_10px_#E2F609]"
         style={{ scaleX: scrollYProgress }}
@@ -498,8 +488,6 @@ export default function XBLTLP() {
     </div>
   );
 }
-
-/* --- HELPER COMPONENTS --- */
 
 const StoryChapter = ({ num, title, icon, text }: any) => (
   <div className="story-step min-h-[60vh] flex flex-col justify-center border-l-2 border-transparent pl-8 ml-4 transition-all duration-500">
@@ -518,12 +506,10 @@ const StoryChapter = ({ num, title, icon, text }: any) => (
   </div>
 );
 
-// --- 10 HIGHLY ANIMATED DYNAMIC VISUALIZERS ---
-
 const DynamicStoryVisual = ({ index }: { index: number }) => {
   const renderVisual = () => {
     switch (index) {
-      case 0: // Evolution (Racing Progress Bars)
+      case 0:
         return (
           <div className="w-full max-w-xs space-y-6 font-mono text-sm">
             <div className="flex flex-col gap-2 opacity-50">
@@ -577,7 +563,7 @@ const DynamicStoryVisual = ({ index }: { index: number }) => {
             </div>
           </div>
         );
-      case 1: // Architect (Floating Nodes)
+      case 1:
         return (
           <div className="relative w-full h-full flex items-center justify-center font-mono">
             <motion.div
@@ -610,7 +596,7 @@ const DynamicStoryVisual = ({ index }: { index: number }) => {
             </motion.div>
           </div>
         );
-      case 2: // Orchestration (Triangular Glow)
+      case 2:
         return (
           <div className="relative w-full h-full flex flex-col items-center justify-center font-mono text-xs">
             <div className="relative w-48 h-48">
@@ -623,7 +609,6 @@ const DynamicStoryVisual = ({ index }: { index: number }) => {
               <motion.div className="absolute bottom-0 right-0 p-3 bg-black border border-yellow-500/50 text-yellow-400 rounded-lg shadow-[0_0_20px_rgba(234,179,8,0.3)] z-10">
                 CRITIQUE
               </motion.div>
-              {/* Triangulating lines */}
               <svg className="absolute inset-0 w-full h-full -z-10 opacity-30">
                 <motion.polygon
                   points="96,20 20,180 172,180"
@@ -639,7 +624,7 @@ const DynamicStoryVisual = ({ index }: { index: number }) => {
             </div>
           </div>
         );
-      case 3: // Injection (Files Dropping)
+      case 3:
         return (
           <div className="font-mono text-xs w-full max-w-xs bg-[#0A0A0A] p-6 rounded-xl border border-white/10 shadow-2xl overflow-hidden relative">
             <div className="flex items-center gap-2 text-blue-400 mb-6 pb-2 border-b border-white/10">
@@ -677,7 +662,7 @@ const DynamicStoryVisual = ({ index }: { index: number }) => {
             />
           </div>
         );
-      case 4: // Zero Latency (Continuous Typing)
+      case 4:
         return (
           <div className="font-mono text-xs w-full max-w-sm bg-black p-6 rounded-xl border border-white/5 shadow-2xl relative overflow-hidden">
             <motion.div
@@ -720,7 +705,7 @@ const DynamicStoryVisual = ({ index }: { index: number }) => {
             </div>
           </div>
         );
-      case 5: // Auto Node Modules (Terminal Execution)
+      case 5:
         return (
           <div className="font-mono text-[11px] w-full max-w-sm bg-[#050505] p-5 rounded-xl border border-gray-800 shadow-2xl text-green-400">
             <div className="flex gap-2 mb-4 border-b border-white/10 pb-2">
@@ -794,7 +779,7 @@ const DynamicStoryVisual = ({ index }: { index: number }) => {
             </div>
           </div>
         );
-      case 6: // Live Matrix (Pulsing Zap)
+      case 6:
         return (
           <div className="relative flex justify-center items-center h-full w-full">
             <motion.div
@@ -815,7 +800,6 @@ const DynamicStoryVisual = ({ index }: { index: number }) => {
             <div className="w-32 h-32 bg-[#E2F609]/10 border border-[#E2F609]/30 rounded-full flex items-center justify-center backdrop-blur-sm z-10">
               <Zap className="w-16 h-16 text-[#E2F609] fill-[#E2F609]" />
             </div>
-            {/* Matrix Rain effect background lines */}
             {[...Array(5)].map((_, i) => (
               <motion.div
                 key={i}
@@ -832,7 +816,7 @@ const DynamicStoryVisual = ({ index }: { index: number }) => {
             ))}
           </div>
         );
-      case 7: // Absolute Privacy (Scanner)
+      case 7:
         return (
           <div className="text-center font-mono relative">
             <motion.div
@@ -871,7 +855,7 @@ const DynamicStoryVisual = ({ index }: { index: number }) => {
             </div>
           </div>
         );
-      case 8: // Global Edge Sync (Orbiting Satellites)
+      case 8:
         return (
           <div className="relative flex items-center justify-center w-full h-full">
             <motion.div
@@ -897,7 +881,7 @@ const DynamicStoryVisual = ({ index }: { index: number }) => {
             </motion.div>
           </div>
         );
-      case 9: // The Future (Shaking Rocket)
+      case 9:
         return (
           <div className="relative flex flex-col items-center justify-center">
             <motion.div
@@ -907,7 +891,6 @@ const DynamicStoryVisual = ({ index }: { index: number }) => {
             >
               <Rocket className="w-32 h-32 text-white" strokeWidth={1} />
             </motion.div>
-            {/* Exhaust particles */}
             <div className="absolute top-[100px] w-full flex justify-center z-0">
               {[...Array(6)].map((_, i) => (
                 <motion.div
