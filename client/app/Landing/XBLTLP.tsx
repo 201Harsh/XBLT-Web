@@ -322,7 +322,7 @@ export default function XBLTLP() {
         className="relative w-full bg-[#050505] border-b border-white/5"
       >
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row">
-          <div className="md:w-1/2 py-32 px-6 pb-[50vh]">
+          <div className="md:w-1/2 py-32 px-6 pb-[50vh] mt-100">
             <StoryChapter
               num="01"
               title="The Evolution."
