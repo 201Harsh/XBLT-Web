@@ -70,7 +70,7 @@ const MagneticButton = () => {
       <div className="relative z-10 w-10 h-10 rounded-full bg-black/10 flex items-center justify-center group-hover:bg-black group-hover:text-[#E2F609] transition-all duration-300">
         <Download className="w-5 h-5" />
       </div>
-      <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/40 to-transparent group-hover:animate-[shimmer_1.5s_infinite]" />
+      <div className="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/40 to-transparent group-hover:animate-[shimmer_1.5s_infinite]" />
     </motion.button>
   );
 };
@@ -219,14 +219,14 @@ export default function XBLTLP() {
       >
         <BackgroundParticles />
         <motion.div
-          className="absolute z-0 w-[800px] h-[800px] bg-[#E2F609]/10 rounded-full blur-[150px] pointer-events-none mix-blend-screen"
+          className="absolute z-0 w-200 h-200 bg-[#E2F609]/10 rounded-full blur-[150px] pointer-events-none mix-blend-screen"
           animate={{ x: mousePos.x * 60, y: mousePos.y * 60 }}
           transition={{ type: "tween", ease: "backOut", duration: 1 }}
         />
         <motion.svg
           ref={boltRef}
           style={{ y: yHeroBolt }}
-          className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[600px] -z-10 opacity-10 pointer-events-none"
+          className="absolute top-1/4 left-1/2 -translate-x-1/2 w-150 h-150 -z-10 opacity-10 pointer-events-none"
           viewBox="0 0 20 23"
           fill="none"
           stroke="#E2F609"
@@ -259,7 +259,7 @@ export default function XBLTLP() {
             transition={{ duration: 1, ease: "circOut" }}
           >
             BUILD AT <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#E2F609] to-[#8a9600] italic pr-2">
+            <span className="text-transparent bg-clip-text bg-linear-to-b from-[#E2F609] to-[#8a9600] italic pr-2">
               LIGHTNING SPEED.
             </span>
           </motion.h1>
@@ -318,8 +318,8 @@ export default function XBLTLP() {
       </section>
 
       <div className="w-full border-y border-white/5 bg-[#0A0A0A] py-8 overflow-hidden relative flex flex-col items-center justify-center">
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-[#050505] to-transparent z-10" />
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-[#050505] to-transparent z-10" />
+        <div className="absolute left-0 top-0 bottom-0 w-32 bg-linear-to-r from-[#050505] to-transparent z-10" />
+        <div className="absolute right-0 top-0 bottom-0 w-32 bg-linear-to-l from-[#050505] to-transparent z-10" />
         <span className="text-[10px] font-mono text-gray-600 uppercase tracking-widest mb-6">
           Powered by Elite Architecture
         </span>
@@ -422,8 +422,7 @@ export default function XBLTLP() {
           </div>
 
           <div className="hidden md:flex md:w-1/2 h-screen pinned-visual sticky top-0 items-center justify-center p-6 lg:p-12">
-            <div className="relative w-full h-[550px] bg-[#0A0A0A] border border-white/10 rounded-[30px] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col">
-              {/* Window Header */}
+            <div className="relative w-full h-137.5 bg-[#0A0A0A] border border-white/10 rounded-[30px] overflow-hidden shadow-[0_30px_60px_rgba(0,0,0,0.8)] flex flex-col">
               <div className="h-12 border-b border-white/10 flex items-center justify-between px-6 bg-white/5 backdrop-blur-md">
                 <div className="flex gap-2">
                   <div className="w-3 h-3 rounded-full bg-red-500/80"></div>
@@ -437,7 +436,7 @@ export default function XBLTLP() {
               </div>
 
               <div className="flex-1 relative overflow-hidden p-8 flex items-center justify-center">
-                <div className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent_50%,rgba(0,0,0,0.3)_51%)] bg-[size:100%_4px] pointer-events-none z-20 opacity-20"></div>
+                <div className="absolute inset-0 bg-[linear-linear(to_bottom,transparent_50%,rgba(0,0,0,0.3)_51%)] bg-size-[100%_4px] pointer-events-none z-20 opacity-20"></div>
 
                 <AnimatePresence mode="wait">
                   <DynamicStoryVisual key={activeStory} index={activeStory} />
@@ -446,7 +445,7 @@ export default function XBLTLP() {
 
               <div className="relative h-12 border-t border-white/10 bg-white/5 flex items-center justify-between px-6">
                 <div
-                  className="absolute top-0 left-0 h-[2px] bg-[#E2F609] shadow-[0_0_10px_#E2F609]"
+                  className="absolute top-0 left-0 h-0.5 bg-[#E2F609] shadow-[0_0_10px_#E2F609]"
                   style={{
                     width: `${((activeStory + 1) / 10) * 100}%`,
                     transition: "width 0.3s ease",
@@ -476,14 +475,6 @@ export default function XBLTLP() {
       <motion.div
         className="fixed bottom-0 left-0 right-0 h-1.5 bg-[#E2F609] origin-left z-50 shadow-[0_0_10px_#E2F609]"
         style={{ scaleX: scrollYProgress }}
-      />
-
-      <style
-        dangerouslySetInnerHTML={{
-          __html: `
-        @keyframes shimmer { 100% { transform: translateX(100%); } }
-      `,
-        }}
       />
     </div>
   );
@@ -803,7 +794,7 @@ const DynamicStoryVisual = ({ index }: { index: number }) => {
             {[...Array(5)].map((_, i) => (
               <motion.div
                 key={i}
-                className="absolute w-px h-32 bg-gradient-to-b from-transparent via-[#E2F609] to-transparent"
+                className="absolute w-px h-32 bg-linear-to-b from-transparent via-[#E2F609] to-transparent"
                 style={{ left: `${20 + i * 15}%` }}
                 animate={{ y: ["-200%", "200%"] }}
                 transition={{
@@ -891,7 +882,7 @@ const DynamicStoryVisual = ({ index }: { index: number }) => {
             >
               <Rocket className="w-32 h-32 text-white" strokeWidth={1} />
             </motion.div>
-            <div className="absolute top-[100px] w-full flex justify-center z-0">
+            <div className="absolute top-25 w-full flex justify-center z-0">
               {[...Array(6)].map((_, i) => (
                 <motion.div
                   key={i}
@@ -902,7 +893,7 @@ const DynamicStoryVisual = ({ index }: { index: number }) => {
                     delay: i * 0.1,
                     ease: "easeOut",
                   }}
-                  className="w-4 h-4 bg-gradient-to-b from-[#E2F609] to-red-500 rounded-full absolute"
+                  className="w-4 h-4 bg-linear-to-b from-[#E2F609] to-red-500 rounded-full absolute"
                   style={{ left: `calc(50% + ${(i - 2.5) * 10}px)` }}
                 />
               ))}
