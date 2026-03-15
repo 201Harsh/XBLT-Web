@@ -61,7 +61,7 @@ const MagneticButton = () => {
       transition={{ type: "spring", stiffness: 150, damping: 15, mass: 0.1 }}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      className="group relative flex items-center justify-between px-8 py-5 bg-[#E2F609] rounded-full text-black font-bold text-lg overflow-hidden shadow-[0_0_40px_rgba(226,246,9,0.3)] hover:shadow-[0_0_60px_rgba(226,246,9,0.6)] transition-shadow cursor-pointer z-50 min-w-[280px]"
+      className="group relative flex items-center justify-between px-8 py-5 bg-[#E2F609] rounded-full text-black font-bold text-lg overflow-hidden shadow-[0_0_40px_rgba(226,246,9,0.3)] hover:shadow-[0_0_60px_rgba(226,246,9,0.6)] transition-shadow cursor-pointer z-50 min-w-70"
     >
       <span className="relative z-10 flex items-center gap-3">
         <Command className="w-6 h-6" />
